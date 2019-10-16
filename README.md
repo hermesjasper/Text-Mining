@@ -3,9 +3,9 @@ trabalho CE2
 
 O que é Text-Mining?
 -
--Quais as suas funções no dia a dia?
--Usos em ambientes profissionais.
--Como é o mercado dessa área?
+-/Quais as suas funções no dia a dia?
+-/Usos em ambientes profissionais.
+-/Como é o mercado dessa área?
 -Exemplos.
 
 Análise de Sentimentos (de Texto):
