@@ -15,7 +15,8 @@ Análise de Sentimentos (de Texto):
 <p> 
  Relacionar palavras à sentimentos humanos. <br />
  Extrair o assunto principal do texto através das palavras. <br />
- Exemplos.
+ Exemplos. <br />
+ https://medium.com/@actsusanli/text-mining-is-fun-with-r-35e537b12002
 </p>
 
 Pacotes:
