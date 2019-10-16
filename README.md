@@ -1,26 +1,26 @@
 # Text-Minning
 trabalho CE2
 
-O que é Text-Mining?
--
-/Quais as suas funções no dia a dia?
--/Usos em ambientes profissionais.
--/Como é o mercado dessa área?
--Exemplos.
+ O que é Text-Mining?
+ -
+ <p> Quais as suas funções no dia a dia? </p>
+ <p> Usos em ambientes profissionais. </p>
+ <p> Como é o mercado dessa área? </p>
+ <p> Exemplos. </p>
 
 Análise de Sentimentos (de Texto):
 -
--Relacionar palavras à sentimentos humanos.
--Extrair o assunto principal do texto através das palavras.
--Exemplos.
+<p> Relacionar palavras à sentimentos humanos. </p>
+<p> Extrair o assunto principal do texto através das palavras. </p>
+<p> Exemplos. </p>
 
 Pacotes:
 -
--Quais pacotes usamos?
--Extensões dos pacotes ( como usá-los e aplicá-los)?
--Tipos de pacotes ( eles funcionam apenas em casos específicos, Twitter,...?).
+<p> Quais pacotes usamos? </p>
+<p> Extensões dos pacotes ( como usá-los e aplicá-los)? </p>
+<p> Tipos de pacotes ( eles funcionam apenas em casos específicos, Twitter,...?). </p>
 
 Estruturação dos Slides:
 -
--Introdução (Exemplo de Ordem: Pacotes, Text-Mining, Sentimentos).
--Colocar os tópicos acima de forma dinâmica e não-entediante.
+<p> Introdução (Exemplo de Ordem: Pacotes, Text-Mining, Sentimentos). </p>
+<p> Colocar os tópicos acima de forma dinâmica e não-entediante. </p>
