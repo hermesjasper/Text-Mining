@@ -9,3 +9,4 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 #Hermes Jasper  
+#Luiz G. Jordão
