@@ -12,3 +12,4 @@ knitr::opts_chunk$set(echo = TRUE)
 #Luiz G. Jordão
 #Rafael Yui
 #Vinícius Paiva de Araújo
+#Gabriel José dos Reis Carvalho
