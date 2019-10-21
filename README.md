@@ -1,2 +1,2 @@
-# Text-Minning
+# Text-Mining
 trabalho CE2
