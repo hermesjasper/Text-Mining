@@ -1,4 +1,4 @@
-# Text-Minning
+# Text-Mining
 trabalho CE2
 
  O que é Text-Mining?
