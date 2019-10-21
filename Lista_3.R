@@ -13,3 +13,4 @@ knitr::opts_chunk$set(echo = TRUE)
 #Rafael Yui
 #Vinícius Paiva de Araújo
 #Gabriel José dos Reis Carvalho
+#K. Kevyn A. de Souza
