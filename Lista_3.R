@@ -8,9 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-#Hermes Jasper  
 #Luiz G. Jordão
-#Rafael Yui
-#Vinícius Paiva de Araújo
-#Gabriel José dos Reis Carvalho
-#K. Kevyn A. de Souza
+#Hermes Jasper  
+
