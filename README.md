@@ -1,7 +1,7 @@
 # Text-Mining
 trabalho CE2
 
- O que é Text-Mining?
+ Afinal, o que são a análise e a mineração de texto?
  -
  <p>
 A análise de texto é uma área em ascenção dentro da estatística e da ciência de dados, que visa, por meio de ferramentas disponíveis como expressões regulares, dicionários, ferramentas linguísticas e mineração de texto (text mining), fazer análises de texto que seriam impraticáveis sem o auxílio de ferramentas computacionais.
@@ -11,7 +11,7 @@ Há muitos tipos de aplicação possíveis para análise de texto. Uma dessas ap
   Exemplos.
 </p>
 
-Análise de Sentimentos (de Texto):
+Análise de sentimentos por ferramentas computacionais
 -
 <p> 
 A análise de sentimentos é essencialmente a busca da relação entre palavras ditas e sentimentos humanos, para avaliar o que o texto está dizendo e extrair informações do texto à partir das palavras que aparecem nele.<br />
