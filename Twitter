@@ -1,0 +1,179 @@
+https://www.youtube.com/watch?v=48EaLwX8dgM&t=682s
+
+#Twitter e Text Mining - Bitcoin
+#https://www.outspokenmarket.com/blog
+#Leandro Guerra
+
+#Instalando as bibliotecas necessarias
+# install.packages("rtweet")
+# install.packages("wordcloud")
+# install.packages("tm")
+
+#Carregando as libraries
+library(rtweet)
+library(wordcloud)
+library(tm)
+library(RColorBrewer)
+library(cluster)   
+library(fpc)
+library(ggplot2)
+
+#####
+#Carregando os Tweets
+#Voce precisar ter uma conta no Twitter e autorizar
+#Limite de 18.000 tweets a cada 15 minutos
+unb_tweets <- search_tweets(
+  "unb", n = 18000, include_rts = FALSE,lang = "pt")
+
+#Rapida visualiza?ao - exemplo tirado da propia documenta?ao da rtweet
+unb_tweets %>%
+  ts_plot("1 hours") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequencia de #bitcoin Twitter posts",
+    subtitle = "Tweets a cada 1 hora",
+    caption = "\nSource: Dados coletados da Twitter's REST API via rtweet"
+  )
+
+#####
+#O trabalho de Minera?ao de Textos - Text Mining
+unb_text <- unb_tweets$text
+
+#Criando e limpando o corpus
+unb_text_corpus <- VCorpus(VectorSource(unb_text))
+unb_text_corpus <- tm_map(unb_text_corpus, content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')))
+unb_text_corpus <- tm_map(unb_text_corpus, content_transformer(tolower))
+unb_text_corpus <- tm_map(unb_text_corpus, removePunctuation)
+unb_text_corpus <- tm_map(unb_textcorpus, removeWords, stopwords("pt"))
+unb_text_corpus <- tm_map(unb_text_corpus, removeWords, c("nao", "porque", 
+                                    "entao", "tá", "tô", "pra", "pro", "cê",
+                                    "quer", "que", "aqui", "como", "meu",
+                                    "ela", "era", "com", "seu", "sou",
+                                    "por", "foi", "vou", "sim", "fica", "ter", "ele",
+                                    "eu", "voce", "nos", "eles", "elas", "sao", "sou",
+                                    "e", "quero", "quis", "minha", "tenho", "estou", "isso",
+                                    "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
+                                    "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
+                                    "mais", "tudo", "entrar", "indo", "vem", "das",
+                                    "muit0", "meus", "acho", "muito", "ficar", "nada",
+                                    "tava", "tinha", "mesmo", "queria", "toda", "fui", 
+                                    "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
+                                    "dar", ""))
+
+#Primeira visualiza?ao
+wordcloud(unb_text_corpus,min.freq=2,max.words=100)
+formatacao <- brewer.pal(8,"Dark2")
+wordcloud(unb_text_corpus,min.freq=2,max.words=100, random.order=T, colors=formatacao)
+
+#Mas ainda aparece muito lixoocument Term Matrix
+unb_dtm <- DocumentTermMatrix(unb_text_corpus)   
+unb_dtm
+
+#####
+#Criando e limpando o corpus
+tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(unb_tweets$text))))
+tweetsUnB <- tm_map(tweetsUnB, removePunctuation)
+tweetsUnB <- tm_map(tweetsUnB, removeWords, stopwords("pt"))
+tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque", 
+                                              "entao", "tá", "tô", "pra", "pro", "cê",
+                                              "quer", "que", "aqui", "como", "meu",
+                                              "ela", "era", "com", "seu", "sou",
+                                              "por", "foi", "vou", "sim", "fica", "ter", "ele",
+                                              "eu", "voce", "nos", "eles", "elas", "sao", "sou",
+                                              "e", "quero", "quis", "minha", "tenho", "estou", "isso",
+                                              "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
+                                              "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
+                                              "mais", "tudo", "entrar", "indo", "vem", "das",
+                                              "muit0", "meus", "acho", "muito", "ficar", "nada",
+                                              "tava", "tinha", "mesmo", "queria", "toda", "fui", 
+                                              "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
+                                              "dar", "unb", "não", "meu"))#*nao esta removendo todas as palavras
+
+#Primeira nuvem
+wordcloud(tweetsUnB,win.freq=2,max.words = 100)
+formatacao <- brewer.pal(8, "Dark2")
+wordcloud(tweetsUnB,win.freq=2,max.words = 100, random.order = T, colors = formatacao)
+
+
+##### mas ainda tem muito lixo
+
+#Limpeza do texto com a D
+unb_dtm <- DocumentTermMatrix(tweetsUnB)
+unb_dtm <- removeSparseTerms(DocumentTermMatrix(tweetsUnB), 0.98)
+
+unb_frequencia <- colSums(as.matrix(unb_dtm))   
+length(unb_frequencia) 
+tail(unb_frequencia,10)
+
+#Convertendo a matriz de frequencia em dataframe para o plot
+
+unb_frequencia <- sort(colSums(as.matrix(unb_dtm)), decreasing=TRUE) 
+unb_frequencia
+unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
+unb_plot <- unb_plot[-c(1),]
+
+#Criando o grafico
+grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  ggtitle("Grafico de barras com os termos mais frequentes") +
+  labs(y="Frequencia", x = "Termos")
+grafico   
+
+#Removendo palavras especificas e limpando novamente o corpus
+unb_dtms <- removeSparseTerms(DocumentTermMatrix(tweetsUnB) , 0.98) 
+unb_dtms
+
+unb_frequencia <- colSums(as.matrix(unb_dtms))   
+length(unb_frequencia) 
+
+unb_frequencia <- sort(colSums(as.matrix(unb_dtms)), decreasing=TRUE) 
+unb_frequencia
+
+
+#Convertendo a matriz de frequencia em dataframe para o plot
+unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
+unb_plot <- unb_plot[-c(1),]
+
+#Criando o grafico
+grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  ggtitle("Grafico de barras com os termos mais frequentes") +
+  labs(y="Frequencia", x = "Termos")
+grafico   
+
+
+#Nova nuvem de palavras
+formatacao <- brewer.pal(8, "Dark2")
+tweetsUnB <- tm_map(tweetsUnB, removeWords, c("unb")) #**
+wordcloud(names(unb_frequencia),unb_frequencia,min.freq=2,max.words=150, random.order=T, colors=formatacao)
+unb_plot
+### erro: a palavra chave não esta sendo removida
+
+
+#####
+#Aplicando um pouco de machine learning - Clustering
+unb_dtms2 <- removeSparseTerms(unb_dtm, 0.95)
+unb_dtms2
+
+#Clustering 1 - Dendograma
+distancia <- dist(t(unb_dtms2), method="euclidian")   
+dendograma <- hclust(d=distancia, method="complete")
+plot(dendograma, hang=-1,main = "Dendograma Tweets Bitcoin - Outspoken Market",
+     xlab = "Distancia",
+     ylab = "Altura")  
+
+#Para ler melhor o Dendograma
+groups <- cutree(dendograma, k=3)
+rect.hclust(dendograma, k=3, border="red")   
+
+#Clustering 2 - K-Means
+kmeans_btc <- kmeans(distancia, 3)   
+clusplot(as.matrix(distancia), kmeans_btc$cluster, color=T, shade=T, labels=3, lines=0,
+         main = "K-Means Tweets Bitcoin - Outspoken Market",
+         xlab = "PC1",
+         ylab = "PC2") 
+
