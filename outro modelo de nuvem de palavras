@@ -1,5 +1,3 @@
-
-#Instalando as bibliotecas necessarias
 install.packages(c("tidytext", "rtweet","wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
 #Carregando as libraries
 install_github("lchiffon/wordcloud2")
@@ -42,35 +40,27 @@ tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
 tweetsUnB <- tm_map(tweetsUnB, removePunctuation)
 tweetsUnB <- tm_map(tweetsUnB, removeWords, stopwords("pt"))
 tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque", 
-                                                        "entao", "tá", "tô", "pra", "pro", "cê",
-                                                        "quer", "que", "aqui", "como", "meu",
-                                                        "ela", "era", "com", "seu", "sou",
-                                                        "por", "foi", "vou", "sim", "fica", "ter", "ele",
-                                                        "eu", "voce", "nos", "eles", "elas", "sao", "sou",
-                                                        "e", "quero", "quis", "minha", "tenho", "estou", "isso",
-                                                        "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
-                                                        "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
-                                                        "mais", "tudo", "entrar", "indo", "vem", "das",
-                                                        "muit0", "meus", "acho", "muito", "ficar", "nada",
-                                                        "tava", "tinha", "mesmo", "queria", "toda", "fui", 
-                                                        "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
-                                                        "dar", "unb"))
+                                              "entao", "tá", "tô", "pra", "pro", "cê",
+                                              "quer", "que", "aqui", "como", "meu",
+                                              "ela", "era", "com", "seu", "sou",
+                                              "por", "foi", "vou", "sim", "fica", "ter", "ele",
+                                              "eu", "voce", "nos", "eles", "elas", "sao", "sou",
+                                              "e", "quero", "quis", "minha", "tenho", "estou", "isso",
+                                              "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
+                                              "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
+                                              "mais", "tudo", "entrar", "indo", "vem", "das",
+                                              "muit0", "meus", "acho", "muito", "ficar", "nada",
+                                              "tava", "tinha", "mesmo", "queria", "toda", "fui", 
+                                              "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
+                                              "dar", "unb"))
 
 #Mas ainda aparece muito lixo
 #####
-#Limpeza do texto com a Document Term Matrix
-unb_dtm <- removeSparseTerms(DocumentTermMatrix(tweetsUnB), 0.98)
-
 #Convertendo a matriz de frequencia em dataframe para o plot
-unb_frequencia <- sort(colSums(as.matrix(unb_dtm)), decreasing=TRUE)
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(tweetsUnB), 0.995))), decreasing=TRUE)
 length(unb_frequencia) 
 tail(unb_frequencia,10)
 unb_frequencia
-
-#Removendo palavras especificas e limpando novamente o corpus
-unb_frequencia <- colSums(as.matrix(unb_dtm))   
-
-unb_frequencia <- sort(colSums(as.matrix(unb_dtm)), decreasing=TRUE) 
 
 #Convertendo a matriz de frequencia em dataframe para o plot
 unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)
@@ -78,5 +68,3 @@ unb_plot <- unb_plot[-c(1),]
 
 #Fazendo a nuvem de palavras
 wordcloud2(unb_plot) 
-### o numero de palavras que aparece na nuvem é muito baixo
-
