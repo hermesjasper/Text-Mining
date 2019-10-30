@@ -1,53 +1,52 @@
-https://www.youtube.com/watch?v=48EaLwX8dgM&t=682s
-
 #Twitter e Text Mining - Bitcoin
 #https://www.outspokenmarket.com/blog
 #Leandro Guerra
-
-#Instalando as bibliotecas necessarias
-# install.packages("rtweet")
-# install.packages("wordcloud")
-# install.packages("tm")
-
+#Instalando os pacotes necessários
+install.packages(c("tidytext", "rtweet","wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
 #Carregando as libraries
+install_github("lchiffon/wordcloud2")
 library(rtweet)
-library(wordcloud)
 library(tm)
 library(RColorBrewer)
 library(cluster)   
 library(fpc)
+library(httpuv)
+library(SnowballC)
+library(wordcloud2)
+library(tidytext)
+library(dplyr)
+library(stringr)
+library(rtweet)
+require(devtools)
 library(ggplot2)
-
-#####
+# ####
+# ####
 #Carregando os Tweets
 #Voce precisar ter uma conta no Twitter e autorizar
 #Limite de 18.000 tweets a cada 15 minutos
-unb_tweets <- search_tweets(
-  "unb", n = 18000, include_rts = FALSE,lang = "pt")
+twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
 
 #Rapida visualiza?ao - exemplo tirado da propia documenta?ao da rtweet
-unb_tweets %>%
+twitterUnB %>%
   ts_plot("1 hours") +
   ggplot2::theme_minimal() +
   ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
   ggplot2::labs(
     x = NULL, y = NULL,
-    title = "Frequencia de #bitcoin Twitter posts",
+    title = "Frequência de tweets na hashtag #bitcoin",
     subtitle = "Tweets a cada 1 hora",
-    caption = "\nSource: Dados coletados da Twitter's REST API via rtweet"
+    caption = "\nFonte: Dados coletados da Twitter's REST API via rtweet"
   )
 
 #####
-#O trabalho de Minera?ao de Textos - Text Mining
-unb_text <- unb_tweets$text
-
-#Criando e limpando o corpus
-unb_text_corpus <- VCorpus(VectorSource(unb_text))
-unb_text_corpus <- tm_map(unb_text_corpus, content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')))
-unb_text_corpus <- tm_map(unb_text_corpus, content_transformer(tolower))
-unb_text_corpus <- tm_map(unb_text_corpus, removePunctuation)
-unb_text_corpus <- tm_map(unb_textcorpus, removeWords, stopwords("pt"))
-unb_text_corpus <- tm_map(unb_text_corpus, removeWords, c("nao", "porque", 
+#O trabalho de Mineração de Textos - Text Mining
+##Criando e limpando o corpus
+corpusUnB <- VCorpus(VectorSource(twitterUnB$text))
+corpusUnB <- tm_map(corpusUnB, content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')))
+corpusUnB <- tm_map(corpusUnB, content_transformer(tolower))
+corpusUnB <- tm_map(corpusUnB, removePunctuation)
+corpusUnB <- tm_map(corpusUnB, removeWords, stopwords("pt"))
+corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", 
                                     "entao", "tá", "tô", "pra", "pro", "cê",
                                     "quer", "que", "aqui", "como", "meu",
                                     "ela", "era", "com", "seu", "sou",
@@ -63,17 +62,16 @@ unb_text_corpus <- tm_map(unb_text_corpus, removeWords, c("nao", "porque",
                                     "dar", ""))
 
 #Primeira visualiza?ao
-wordcloud(unb_text_corpus,min.freq=2,max.words=100)
+wordcloud(corpusUnB,min.freq=2,max.words=100)
 formatacao <- brewer.pal(8,"Dark2")
-wordcloud(unb_text_corpus,min.freq=2,max.words=100, random.order=T, colors=formatacao)
+wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=formatacao)
 
 #Mas ainda aparece muito lixoocument Term Matrix
-unb_dtm <- DocumentTermMatrix(unb_text_corpus)   
-unb_dtm
+unb_dtm <- DocumentTermMatrix(corpusUnB)
 
 #####
 #Criando e limpando o corpus
-tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(unb_tweets$text))))
+tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
 tweetsUnB <- tm_map(tweetsUnB, removePunctuation)
 tweetsUnB <- tm_map(tweetsUnB, removeWords, stopwords("pt"))
 tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque", 
@@ -123,13 +121,8 @@ grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -f
 grafico   
 
 #Removendo palavras especificas e limpando novamente o corpus
-unb_dtms <- removeSparseTerms(DocumentTermMatrix(tweetsUnB) , 0.98) 
-unb_dtms
-
-unb_frequencia <- colSums(as.matrix(unb_dtms))   
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(tweetsUnB) , 0.98))), decreasing=TRUE) 
 length(unb_frequencia) 
-
-unb_frequencia <- sort(colSums(as.matrix(unb_dtms)), decreasing=TRUE) 
 unb_frequencia
 
 
@@ -156,11 +149,11 @@ unb_plot
 
 #####
 #Aplicando um pouco de machine learning - Clustering
-unb_dtms2 <- removeSparseTerms(unb_dtm, 0.95)
-unb_dtms2
+dtmsUnB <- removeSparseTerms(unb_dtm, 0.95)
+dtmsUnB
 
 #Clustering 1 - Dendograma
-distancia <- dist(t(unb_dtms2), method="euclidian")   
+distancia <- dist(t(dtmsUnB), method="euclidian")   
 dendograma <- hclust(d=distancia, method="complete")
 plot(dendograma, hang=-1,main = "Dendograma Tweets Bitcoin - Outspoken Market",
      xlab = "Distancia",
@@ -176,4 +169,3 @@ clusplot(as.matrix(distancia), kmeans_btc$cluster, color=T, shade=T, labels=3, l
          main = "K-Means Tweets Bitcoin - Outspoken Market",
          xlab = "PC1",
          ylab = "PC2") 
-
