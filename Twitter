@@ -33,20 +33,12 @@ twitterUnB %>%
 corpusUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
 corpusUnB <- tm_map(corpusUnB, removePunctuation)
 corpusUnB <- tm_map(corpusUnB, removeWords, stopwords("pt"))
-corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", 
-                                              "entao", "tá", "tô", "pra", "pro", "cê",
-                                              "quer", "que", "aqui", "como", "meu",
-                                              "ela", "era", "com", "seu", "sou",
-                                              "por", "foi", "vou", "sim", "fica", "ter", "ele",
-                                              "eu", "voce", "nos", "eles", "elas", "sao", "sou",
-                                              "e", "quero", "quis", "minha", "tenho", "estou", "isso",
-                                              "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
-                                              "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
-                                              "mais", "tudo", "entrar", "indo", "vem", "das",
-                                              "muito", "meus", "acho", "muito", "ficar", "nada",
-                                              "tava", "tinha", "mesmo", "queria", "toda", "fui", 
-                                              "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
-                                              "dar", "unb"))
+corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê",
+"quer", "que", "aqui", "como", "meu", "ela", "era", "com", "seu", "sou", "por", "foi", "vou", "sim", "fica", "ter", "ele",
+"eu", "voce", "nos", "eles", "elas", "sao", "sou", "e", "quero", "quis", "minha", "tenho", "estou", "isso",
+"essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem", "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
+"mais", "tudo", "entrar", "indo", "vem", "das", "muito", "meus", "acho", "muito", "ficar", "nada",
+"tava", "tinha", "mesmo", "queria", "toda", "fui", "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz", "dar", "unb"))
 
 #Primeira visualização
 wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
