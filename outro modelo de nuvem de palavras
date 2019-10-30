@@ -31,7 +31,6 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
                                               "dar", "unb"))
 
-#Mas ainda aparece muito lixo
 #####
 #Convertendo a matriz de frequencia em dataframe para o plot
 unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.995))), decreasing=TRUE)
