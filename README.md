@@ -1,5 +1,5 @@
 # Text-Mining
-trabalho CE2
+Esse repositório hospeda um trabalho da disciplina de Computação em Estatística 2, do 2º semestre de 2019 da Universidade de Brasília (UnB). Aqui serão abordadas, compiladas e testadas várias coisas relacionadas à mineração e análise de texto usando o software estatístico R.
 
  Afinal, o que são a análise e a mineração de texto?
  -
