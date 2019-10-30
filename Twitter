@@ -4,6 +4,7 @@
 #Instalando os pacotes necessários
 install.packages(c("tidytext", "rtweet","wordcloud",wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
 #Carregando as bibliotecas
+
 require(devtools)
 install_github("lchiffon/wordcloud2")
 library(rtweet)
@@ -55,7 +56,7 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
                                               "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
                                               "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
                                               "mais", "tudo", "entrar", "indo", "vem", "das",
-                                              "muit0", "meus", "acho", "muito", "ficar", "nada",
+                                              "muito", "meus", "acho", "muito", "ficar", "nada",
                                               "tava", "tinha", "mesmo", "queria", "toda", "fui", 
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
                                               "dar", "unb"))
