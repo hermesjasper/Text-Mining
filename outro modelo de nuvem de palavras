@@ -1,38 +1,15 @@
-install.packages(c("tidytext", "rtweet","wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
-#Carregando as libraries
-install_github("lchiffon/wordcloud2")
-library(rtweet)
-library(tm)
-library(RColorBrewer)
-library(cluster)   
-library(fpc)
-library(httpuv)
-library(SnowballC)
-library(wordcloud2)
-library(tidytext)
-library(dplyr)
-library(stringr)
-library(rtweet)
 require(devtools)
-library(ggplot2)
+install_github("lchiffon/wordcloud2")
+
+install.packages("pacman")
+library(pacman)
+pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcloud, wordcloud2, tidytext, dplyr, stringr, rtweet, ggplot2)
 
 #####
 #Carregando os Tweets
 #Voce precisar ter uma conta no Twitter e autorizar
 #Limite de 18.000 tweets a cada 15 minutos
 twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
-
-#Rapida visualiza?ao - exemplo tirado da propia documenta?ao da rtweet
-twitterUnB %>%
-  ts_plot("1 hours") +
-  ggplot2::theme_minimal() +
-  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
-  ggplot2::labs(
-    x = NULL, y = NULL,
-    title = "Frequência de tweets na hashtag #bitcoin",
-    subtitle = "Tweets a cada 1 hora",
-    caption = "\nFonte: Dados coletados da Twitter's REST API via rtweet"
-  )
 
 #####
 #Criando e limpando o corpus
