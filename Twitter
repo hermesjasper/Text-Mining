@@ -2,25 +2,12 @@
 #https://www.outspokenmarket.com/blog
 #Leandro Guerra
 #Instalando os pacotes necessários
-install.packages(c("tidytext", "rtweet","wordcloud",wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
-#Carregando as bibliotecas
-
 require(devtools)
 install_github("lchiffon/wordcloud2")
-library(rtweet)
-library(tm)
-library(RColorBrewer)
-library(cluster)   
-library(fpc)
-library(httpuv)
-library(SnowballC)
-library(wordcloud)
-library(wordcloud2)
-library(tidytext)
-library(dplyr)
-library(stringr)
-library(rtweet)
-library(ggplot2)
+
+install.packages("pacman")
+library(pacman)
+pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcloud, wordcloud2, tidytext, dplyr, stringr, rtweet, ggplot2)
 # ####
 # ####
 #Carregando os Tweets
