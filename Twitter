@@ -41,40 +41,10 @@ twitterUnB %>%
 #####
 #O trabalho de Mineração de Textos - Text Mining
 ##Criando e limpando o corpus
-corpusUnB <- VCorpus(VectorSource(twitterUnB$text))
-corpusUnB <- tm_map(corpusUnB, content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')))
-corpusUnB <- tm_map(corpusUnB, content_transformer(tolower))
+corpusUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
 corpusUnB <- tm_map(corpusUnB, removePunctuation)
 corpusUnB <- tm_map(corpusUnB, removeWords, stopwords("pt"))
 corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", 
-                                    "entao", "tá", "tô", "pra", "pro", "cê",
-                                    "quer", "que", "aqui", "como", "meu",
-                                    "ela", "era", "com", "seu", "sou",
-                                    "por", "foi", "vou", "sim", "fica", "ter", "ele",
-                                    "eu", "voce", "nos", "eles", "elas", "sao", "sou",
-                                    "e", "quero", "quis", "minha", "tenho", "estou", "isso",
-                                    "essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem",
-                                    "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
-                                    "mais", "tudo", "entrar", "indo", "vem", "das",
-                                    "muit0", "meus", "acho", "muito", "ficar", "nada",
-                                    "tava", "tinha", "mesmo", "queria", "toda", "fui", 
-                                    "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
-                                    "dar", ""))
-
-#Primeira visualiza?ao
-wordcloud(corpusUnB,min.freq=2,max.words=100)
-formatacao <- brewer.pal(8,"Dark2")
-wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=formatacao)
-
-#Mas ainda aparece muito lixoocument Term Matrix
-unb_dtm <- DocumentTermMatrix(corpusUnB)
-
-#####
-#Criando e limpando o corpus
-tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
-tweetsUnB <- tm_map(tweetsUnB, removePunctuation)
-tweetsUnB <- tm_map(tweetsUnB, removeWords, stopwords("pt"))
-tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque", 
                                               "entao", "tá", "tô", "pra", "pro", "cê",
                                               "quer", "que", "aqui", "como", "meu",
                                               "ela", "era", "com", "seu", "sou",
@@ -87,19 +57,15 @@ tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque",
                                               "muit0", "meus", "acho", "muito", "ficar", "nada",
                                               "tava", "tinha", "mesmo", "queria", "toda", "fui", 
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
-                                              "dar", "unb", "não", "meu"))#*nao esta removendo todas as palavras
+                                              "dar", "unb"))
 
-#Primeira nuvem
-wordcloud(tweetsUnB,win.freq=2,max.words = 100)
-formatacao <- brewer.pal(8, "Dark2")
-wordcloud(tweetsUnB,win.freq=2,max.words = 100, random.order = T, colors = formatacao)
-
-
-##### mas ainda tem muito lixo
+#Primeira visualiza?ao
+wordcloud(corpusUnB,min.freq=2,max.words=100)
+formatacao <- brewer.pal(8,"Dark2")
+wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=formatacao)
 
 #Limpeza do texto com a D
-unb_dtm <- DocumentTermMatrix(tweetsUnB)
-unb_dtm <- removeSparseTerms(DocumentTermMatrix(tweetsUnB), 0.98)
+unb_dtm <- removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98)
 
 unb_frequencia <- colSums(as.matrix(unb_dtm))   
 length(unb_frequencia) 
@@ -121,7 +87,7 @@ grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -f
 grafico   
 
 #Removendo palavras especificas e limpando novamente o corpus
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(tweetsUnB) , 0.98))), decreasing=TRUE) 
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB) , 0.98))), decreasing=TRUE) 
 length(unb_frequencia) 
 unb_frequencia
 
@@ -141,7 +107,7 @@ grafico
 
 #Nova nuvem de palavras
 formatacao <- brewer.pal(8, "Dark2")
-tweetsUnB <- tm_map(tweetsUnB, removeWords, c("unb")) #**
+corpusUnB <- tm_map(corpusUnB, removeWords, c("unb")) #**
 wordcloud(names(unb_frequencia),unb_frequencia,min.freq=2,max.words=150, random.order=T, colors=formatacao)
 unb_plot
 ### erro: a palavra chave não esta sendo removida
