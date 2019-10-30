@@ -36,10 +36,10 @@ twitterUnB %>%
 
 #####
 #Criando e limpando o corpus
-tweetsUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
-tweetsUnB <- tm_map(tweetsUnB, removePunctuation)
-tweetsUnB <- tm_map(tweetsUnB, removeWords, stopwords("pt"))
-tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque", 
+corpusUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
+corpusUnB <- tm_map(corpusUnB, removePunctuation)
+corpusUnB <- tm_map(corpusUnB, removeWords, stopwords("pt"))
+corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", 
                                               "entao", "tá", "tô", "pra", "pro", "cê",
                                               "quer", "que", "aqui", "como", "meu",
                                               "ela", "era", "com", "seu", "sou",
@@ -57,7 +57,7 @@ tweetsUnB <- tm_map(tweetsUnB, removeWords, c("nao", "porque",
 #Mas ainda aparece muito lixo
 #####
 #Convertendo a matriz de frequencia em dataframe para o plot
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(tweetsUnB), 0.995))), decreasing=TRUE)
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.995))), decreasing=TRUE)
 length(unb_frequencia) 
 tail(unb_frequencia,10)
 unb_frequencia
