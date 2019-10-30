@@ -5,13 +5,9 @@ install.packages("pacman")
 library(pacman)
 pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcloud, wordcloud2, tidytext, dplyr, stringr, rtweet, ggplot2)
 
-#####
-#Carregando os Tweets
-#Você vai precisar de uma conta no Twitter, e autorizar o uso dela para a mineração
-#Limite de 18.000 tweets a cada 15 minutos
+#Carregando os Tweets. É necessário uma conta no Twitter, e autorizar o uso dela para a mineração. Há um limite de 18.000 tweets a cada 15 minutos.
 twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
 
-#####
 #Criando e limpando o corpus
 corpusUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
 corpusUnB <- tm_map(corpusUnB, removePunctuation)
@@ -31,7 +27,6 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
                                               "dar", "unb"))
 
-#####
 #Convertendo a matriz de frequencia em dataframe para o plot
 unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.995))), decreasing=TRUE)
 
