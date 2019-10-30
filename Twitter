@@ -1,22 +1,20 @@
-#Twitter e Text Mining - Bitcoin
-#https://www.outspokenmarket.com/blog
-#Leandro Guerra
 #Instalando os pacotes necessários
 require(devtools)
 install_github("lchiffon/wordcloud2")
 
 install.packages("pacman")
 library(pacman)
-pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcloud, wordcloud2, tidytext, dplyr, stringr, rtweet, ggplot2)
+pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcloud, wordcloud2,
+               tidytext, dplyr, stringr, rtweet, ggplot2)
 # ####
 # ####
 #Carregando os Tweets
 #Você vai precisar de uma conta no Twitter, e autorizar o uso dela para a mineração
 #Limite de 18.000 tweets a cada 15 minutos
-twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
+twitterbolsonaro <- search_tweets("bolsonaronaro", n = 18000, include_rts = FALSE,lang = "pt")
 
 #Rápida visualização - exemplo tirado da própria documentação da rtweet
-twitterUnB %>%
+twitterbolsonaro %>%
   ts_plot("1 hours") +
   ggplot2::theme_minimal() +
   ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
@@ -30,48 +28,49 @@ twitterUnB %>%
 #####
 #O trabalho de Mineração de Textos - Text Mining
 ##Criando e limpando o corpus
-corpusUnB <- VCorpus(VectorSource(as.character(as.matrix(twitterUnB$text))))
-corpusUnB <- tm_map(corpusUnB, removePunctuation)
-corpusUnB <- tm_map(corpusUnB, removeWords, stopwords("pt"))
-corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê",
-"quer", "que", "aqui", "como", "meu", "ela", "era", "com", "seu", "sou", "por", "foi", "vou", "sim", "fica", "ter", "ele",
-"eu", "voce", "nos", "eles", "elas", "sao", "sou", "e", "quero", "quis", "minha", "tenho", "estou", "isso",
-"essa", "ser", "tem", "seus", "sem", "pelo", "uma", "quem", "isso", "para", "mas", "vai", "pois", "ver", "vcs", "fazer",
-"mais", "tudo", "entrar", "indo", "vem", "das", "muito", "meus", "acho", "muito", "ficar", "nada",
-"tava", "tinha", "mesmo", "queria", "toda", "fui", "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz", "dar", "unb"))
+corpusbolsonaro <- VCorpus(VectorSource(as.character(as.matrix(twitterbolsonaro$text))))
+corpusbolsonaro <- tm_map(corpusbolsonaro, removePunctuation)
+corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, stopwords("pt"))
+corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, c("nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê", "não",
+                                              "quer", "que", "aqui", "como", "meu", "ela", "era", "com", "seu",
+                                              "sou", "por", "foi", "vou", "sim", "fica", "ter", "ele", "eu",
+                                              "voce", "nos", "eles", "elas", "sao", "sou", "e", "quero", "quis",
+                                              "minha", "tenho", "estou", "isso", "essa", "ser", "tem", "seus",
+                                              "sem", "pelo", "uma", "quem", "isso", "para", "mas", "vai", "pois",
+                                              "ver", "vcs", "fazer", "mais", "tudo", "entrar", "indo", "vem",
+                                              "das", "muito", "meus", "acho", "muito", "ficar", "nada", "tava",
+                                              "tinha", "mesmo", "queria", "toda", "fui", "nessa", "mim", "esse",
+                                              "sei", "sair", "pela", "dia", "faz", "dar", "bolsonaro", "gente"))
 
 #Primeira visualização
-wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
+wordcloud(corpusbolsonaro,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
 
 #Limpeza do texto com a D
 #Convertendo a matriz de frequencia em dataframe para o plot
 
-#Removendo palavras específicas e limpando novamente o corpus
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.99))), decreasing=TRUE) 
-length(unb_frequencia) 
-tail(unb_frequencia,10)
+#Limpando novamente o corpus
+bolsonaro_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusbolsonaro), 0.9995))), decreasing=TRUE) 
+length(bolsonaro_frequencia) 
+tail(bolsonaro_frequencia,10)
 
 #Convertendo a matriz de frequencia em dataframe para o plot
-unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
-unb_plot <- unb_plot[-c(1),]
+bolsonaro_plot <- data.frame(word=names(bolsonaro_frequencia), freq=bolsonaro_frequencia)  
+bolsonaro_plot <- bolsonaro_plot[-c(1),]
 
 #Criando o grafico
-ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
+ggplot(subset(bolsonaro_plot, bolsonaro_frequencia>1000), aes(x = reorder(word, -freq), y = freq)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x=element_text(angle=45, hjust=1)) +
   ggtitle("Grafico de barras com os termos mais frequentes") +
   labs(y="Frequencia", x = "Termos")
 
-#Nova nuvem de palavras
-corpusUnB <- tm_map(corpusUnB, removeWords, c("unb")) #**
-wordcloud(names(unb_frequencia),unb_frequencia,min.freq=2,max.words=150, random.order=T, colors=formatacao)
-### erro: a palavra chave não está sendo removida
-
+#Fazendo a nuvem de palavras
+wordcloud2(bolsonaro_plot) 
 
 #####
 #Aplicando um pouco de machine learning - Clustering
 #Clustering 1 - Dendograma
-distancia <- dist(t(removeSparseTerms(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98), 0.95)), method="euclidian")
+distancia <- dist(t(removeSparseTerms(removeSparseTerms(DocumentTermMatrix(corpusbolsonaro), 0.98), 0.95)), method="euclidian")
 dendograma <- hclust(d=distancia, method="complete")
 plot(dendograma, hang=-1,main = "Dendograma Tweets Bitcoin - Outspoken Market",
      xlab = "Distancia",
