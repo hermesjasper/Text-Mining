@@ -27,7 +27,7 @@ library(ggplot2)
 #Limite de 18.000 tweets a cada 15 minutos
 twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
 
-#Rapida visualiza?ao - exemplo tirado da propia documenta?ao da rtweet
+#Rápida visualização - exemplo tirado da própria documentação da rtweet
 twitterUnB %>%
   ts_plot("1 hours") +
   ggplot2::theme_minimal() +
@@ -60,8 +60,7 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
                                               "dar", "unb"))
 
-#Primeira visualiza?ao
-wordcloud(corpusUnB,min.freq=2,max.words=100)
+#Primeira visualizção
 wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
 
 #Limpeza do texto com a D
@@ -70,41 +69,27 @@ wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(
 unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
 length(unb_frequencia) 
 tail(unb_frequencia,10)
-unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
-unb_plot <- unb_plot[-c(1),]
-
-#Criando o grafico
-grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
-  geom_bar(stat = "identity") + 
-  theme(axis.text.x=element_text(angle=45, hjust=1)) +
-  ggtitle("Grafico de barras com os termos mais frequentes") +
-  labs(y="Frequencia", x = "Termos")
-grafico   
+  
 
 #Removendo palavras especificas e limpando novamente o corpus
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB) , 0.98))), decreasing=TRUE) 
-length(unb_frequencia) 
-unb_frequencia
-
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
+length(unb_frequencia)
 
 #Convertendo a matriz de frequencia em dataframe para o plot
 unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
 unb_plot <- unb_plot[-c(1),]
 
 #Criando o grafico
-grafico <- ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
+ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = freq)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x=element_text(angle=45, hjust=1)) +
   ggtitle("Grafico de barras com os termos mais frequentes") +
   labs(y="Frequencia", x = "Termos")
-grafico   
-
 
 #Nova nuvem de palavras
 formatacao <- brewer.pal(8, "Dark2")
 corpusUnB <- tm_map(corpusUnB, removeWords, c("unb")) #**
 wordcloud(names(unb_frequencia),unb_frequencia,min.freq=2,max.words=150, random.order=T, colors=formatacao)
-unb_plot
 ### erro: a palavra chave não esta sendo removida
 
 
