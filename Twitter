@@ -54,14 +54,10 @@ wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(
 #Limpeza do texto com a D
 #Convertendo a matriz de frequencia em dataframe para o plot
 
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
+#Removendo palavras específicas e limpando novamente o corpus
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.99))), decreasing=TRUE) 
 length(unb_frequencia) 
 tail(unb_frequencia,10)
-  
-
-#Removendo palavras específicas e limpando novamente o corpus
-unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
-length(unb_frequencia)
 
 #Convertendo a matriz de frequencia em dataframe para o plot
 unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
