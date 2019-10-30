@@ -1,9 +1,17 @@
+---
+title: "Untitled"
+author: "Kev"
+date: "30 de outubro de 2019"
+output: pdf_document
+---
+
 #Twitter e Text Mining - Bitcoin
 #https://www.outspokenmarket.com/blog
 #Leandro Guerra
 #Instalando os pacotes necessários
-install.packages(c("tidytext", "rtweet","wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
-#Carregando as libraries
+install.packages(c("tidytext", "rtweet","wordcloud",wordcloud2","tm","RColorBrewer","cluster","fpc","httpuv", "SnowballC"))
+#Carregando as bibliotecas
+require(devtools)
 install_github("lchiffon/wordcloud2")
 library(rtweet)
 library(tm)
@@ -12,12 +20,12 @@ library(cluster)
 library(fpc)
 library(httpuv)
 library(SnowballC)
+library(wordcloud)
 library(wordcloud2)
 library(tidytext)
 library(dplyr)
 library(stringr)
 library(rtweet)
-require(devtools)
 library(ggplot2)
 # ####
 # ####
@@ -61,20 +69,14 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
 
 #Primeira visualiza?ao
 wordcloud(corpusUnB,min.freq=2,max.words=100)
-formatacao <- brewer.pal(8,"Dark2")
-wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=formatacao)
+wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
 
 #Limpeza do texto com a D
-unb_dtm <- removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98)
-
-unb_frequencia <- colSums(as.matrix(unb_dtm))   
-length(unb_frequencia) 
-tail(unb_frequencia,10)
-
 #Convertendo a matriz de frequencia em dataframe para o plot
 
-unb_frequencia <- sort(colSums(as.matrix(unb_dtm)), decreasing=TRUE) 
-unb_frequencia
+unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
+length(unb_frequencia) 
+tail(unb_frequencia,10)
 unb_plot <- data.frame(word=names(unb_frequencia), freq=unb_frequencia)  
 unb_plot <- unb_plot[-c(1),]
 
@@ -116,7 +118,7 @@ unb_plot
 #####
 #Aplicando um pouco de machine learning - Clustering
 #Clustering 1 - Dendograma
-distancia <- dist(t(removeSparseTerms(unb_dtm, 0.95)), method="euclidian")   
+distancia <- dist(t(removeSparseTerms(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98), 0.95)), method="euclidian")
 dendograma <- hclust(d=distancia, method="complete")
 plot(dendograma, hang=-1,main = "Dendograma Tweets Bitcoin - Outspoken Market",
      xlab = "Distancia",
@@ -131,4 +133,4 @@ kmeans_btc <- kmeans(distancia, 3)
 clusplot(as.matrix(distancia), kmeans_btc$cluster, color=T, shade=T, labels=3, lines=0,
          main = "K-Means Tweets Bitcoin - Outspoken Market",
          xlab = "PC1",
-         ylab = "PC2") 
+         ylab = "PC2")
