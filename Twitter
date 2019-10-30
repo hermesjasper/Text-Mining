@@ -24,7 +24,7 @@ library(ggplot2)
 # ####
 # ####
 #Carregando os Tweets
-#Voce precisar ter uma conta no Twitter e autorizar
+#Você vai precisar de uma conta no Twitter, e autorizar o uso dela para a mineração
 #Limite de 18.000 tweets a cada 15 minutos
 twitterUnB <- search_tweets("unb", n = 18000, include_rts = FALSE,lang = "pt")
 
@@ -61,7 +61,7 @@ corpusUnB <- tm_map(corpusUnB, removeWords, c("nao", "porque",
                                               "nessa", "mim", "esse", "sei", "sair", "pela", "dia", "faz",
                                               "dar", "unb"))
 
-#Primeira visualizção
+#Primeira visualização
 wordcloud(corpusUnB,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
 
 #Limpeza do texto com a D
@@ -72,7 +72,7 @@ length(unb_frequencia)
 tail(unb_frequencia,10)
   
 
-#Removendo palavras especificas e limpando novamente o corpus
+#Removendo palavras específicas e limpando novamente o corpus
 unb_frequencia <- sort(colSums(as.matrix(removeSparseTerms(DocumentTermMatrix(corpusUnB), 0.98))), decreasing=TRUE) 
 length(unb_frequencia)
 
@@ -88,10 +88,9 @@ ggplot(subset(unb_plot, unb_frequencia>800), aes(x = reorder(word, -freq), y = f
   labs(y="Frequencia", x = "Termos")
 
 #Nova nuvem de palavras
-formatacao <- brewer.pal(8, "Dark2")
 corpusUnB <- tm_map(corpusUnB, removeWords, c("unb")) #**
 wordcloud(names(unb_frequencia),unb_frequencia,min.freq=2,max.words=150, random.order=T, colors=formatacao)
-### erro: a palavra chave não esta sendo removida
+### erro: a palavra chave não está sendo removida
 
 
 #####
