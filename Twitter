@@ -149,11 +149,8 @@ unb_plot
 
 #####
 #Aplicando um pouco de machine learning - Clustering
-dtmsUnB <- removeSparseTerms(unb_dtm, 0.95)
-dtmsUnB
-
 #Clustering 1 - Dendograma
-distancia <- dist(t(dtmsUnB), method="euclidian")   
+distancia <- dist(t(removeSparseTerms(unb_dtm, 0.95)), method="euclidian")   
 dendograma <- hclust(d=distancia, method="complete")
 plot(dendograma, hang=-1,main = "Dendograma Tweets Bitcoin - Outspoken Market",
      xlab = "Distancia",
