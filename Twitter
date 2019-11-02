@@ -30,8 +30,7 @@ twitterbolsonaro %>%
 ##Criando e limpando o corpus
 corpusbolsonaro <- VCorpus(VectorSource(as.character(as.matrix(twitterbolsonaro$text))))
 corpusbolsonaro <- tm_map(corpusbolsonaro, removePunctuation)
-corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, stopwords("pt"))
-corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, c("nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê", "não",
+corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, c(stopwords("pt"), "nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê", "não",
                                               "quer", "que", "aqui", "como", "meu", "ela", "era", "com", "seu",
                                               "sou", "por", "foi", "vou", "sim", "fica", "ter", "ele", "eu",
                                               "voce", "nos", "eles", "elas", "sao", "sou", "e", "quero", "quis",
