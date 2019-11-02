@@ -1,4 +1,4 @@
----
+bol---
 title: 'Mineração e análise de textos no <img src="Rstudio_logo.png" height=90/>'
 date: "8 de novembro de 2018"
 output:
@@ -60,7 +60,7 @@ Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que 
 
 ```{r, echo = FALSE}
 #dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
-#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
+#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
 ```{r, echo = TRUE, eval = FALSE}
 dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) #Convertendo em corpus
