@@ -11,7 +11,7 @@ pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC, wordcl
 #Carregando os Tweets
 #Você vai precisar de uma conta no Twitter, e autorizar o uso dela para a mineração
 #Limite de 18.000 tweets a cada 15 minutos
-twitterbolsonaro <- search_tweets("bolsonaronaro", n = 18000, include_rts = FALSE,lang = "pt")
+twitterbolsonaro <- search_tweets("bolsonaro", n = 18000, include_rts = FALSE,lang = "pt")
 
 #Rápida visualização - exemplo tirado da própria documentação da rtweet
 twitterbolsonaro %>%
