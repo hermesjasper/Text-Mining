@@ -30,16 +30,7 @@ twitterbolsonaro %>%
 ##Criando e limpando o corpus
 corpusbolsonaro <- VCorpus(VectorSource(as.character(as.matrix(twitterbolsonaro$text))))
 corpusbolsonaro <- tm_map(corpusbolsonaro, removePunctuation)
-corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, c(stopwords("pt"), "nao", "porque", "entao", "tá", "tô", "pra", "pro", "cê", "não",
-                                              "quer", "que", "aqui", "como", "meu", "ela", "era", "com", "seu",
-                                              "sou", "por", "foi", "vou", "sim", "fica", "ter", "ele", "eu",
-                                              "voce", "nos", "eles", "elas", "sao", "sou", "e", "quero", "quis",
-                                              "minha", "tenho", "estou", "isso", "essa", "ser", "tem", "seus",
-                                              "sem", "pelo", "uma", "quem", "isso", "para", "mas", "vai", "pois",
-                                              "ver", "vcs", "fazer", "mais", "tudo", "entrar", "indo", "vem",
-                                              "das", "muito", "meus", "acho", "muito", "ficar", "nada", "tava",
-                                              "tinha", "mesmo", "queria", "toda", "fui", "nessa", "mim", "esse",
-                                              "sei", "sair", "pela", "dia", "faz", "dar", "bolsonaro", "gente"))
+corpusbolsonaro <- tm_map(twitterbolsonaro, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 
 #Primeira visualização
 wordcloud(corpusbolsonaro,min.freq=2,max.words=100, random.order=T, colors=brewer.pal(8,"Dark2"))
