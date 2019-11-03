@@ -90,10 +90,13 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 
 
 ## Nuvens de palavras: Explorando...
-Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console:
+
+Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, então veremos o gráfico abaixo.
+<span style = "position:center">
 ```{r, echo = FALSE, eval = TRUE}
-wordcloud2(demoFreq, ellipticity = 0)
+wordcloud2(demoFreq, backgroundColor= "transparent", size = 1)
 ```
+</span>
 
 ## Nuvens de palavras: Explorando...
 <div class="columns-2">
