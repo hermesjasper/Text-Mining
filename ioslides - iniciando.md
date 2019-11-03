@@ -69,7 +69,8 @@ dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
 ```
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
-## Wordcloud: Um gráfico para textos
+# Nuvens de palavras: Explorando...
+## Nuvens de palavras: Explorando...
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Pra isso é que servem os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span>.
 ```{r, eval = FALSE, echo = TRUE}
 #Wordcloud
@@ -88,24 +89,33 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 ```
 
 
-## Wordcloud: um gráfico para textos
+## Nuvens de palavras: Explorando...
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console:
 ```{r, echo = FALSE, eval = TRUE}
-wordcloud2(demoFreq)
+wordcloud2(demoFreq, ellipticity = 0)
 ```
 
-## Wordcloud: Um gráfico para textos
+## Nuvens de palavras: Explorando...
+<div class="columns-2">
+  <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
+  <img src="wordcloudtwitterexample.png" height=400 width=450/ >
+  
+  
 Ok, está legal, mas podemos melhorar um pouco, não?
 
 Vamos tentar usar alguns parâmetros, para dar forma ao gráfico.
+```{r, echo = FALSE, eval = FALSE}
+wordcloud2(demoFreq,
+    figPath = system.file("examples/t.png", package = "wordcloud2"),
+    color = "skyblue")
+```
+
 ```{r, echo = TRUE, eval = FALSE}
 wordcloud2(demoFreq,
-    figPath = system.file("examples/t.png", package = "wordcloud2"),
+    figPath = "twitter.png",
     color = "skyblue")
 ```
-##Wordcloud: Um gráfico para textos
-```{r, echo = FALSE, eval = TRUE}
-wordcloud2(demoFreq,
-    figPath = system.file("examples/t.png", package = "wordcloud2"),
-    color = "skyblue")
-```
+E voilà! Bem melhor, não é mesmo?
+</div>
+##  Nuvens de palavras: Explorando...
+Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
