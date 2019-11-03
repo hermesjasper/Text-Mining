@@ -1,4 +1,4 @@
-bol---
+---
 title: 'Mineração e análise de textos no <img src="Rstudio_logo.png" height=90/>'
 date: "8 de novembro de 2018"
 output:
@@ -14,15 +14,15 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Pacotes
-```{r}
-require(devtools)
-install_github("lchiffon/wordcloud2")
-
-install.packages("pacman")
+```{r, eval = TRUE}
+options(repos="https://cran.rstudio.com")
+install.packages("pacman", repos="https://cran.rstudio.com")
 library(pacman)
-pacman::p_load(rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
-              ggplot2, wordcloud, wordcloud2, tidytext, dplyr,
+
+pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
+              ggplot2, wordcloud, wordcloud2, tidytext,
               stringr, tidyverse, knitr, png, webshot, htmlwidgets)
+devtools::install_github("lchiffon/wordcloud2")
 ```
 
 ## Afinal, do que se tratam a análise e a mineração de texto?
@@ -60,7 +60,7 @@ Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que 
 
 ```{r, echo = FALSE}
 #dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
-#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
+#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
 ```{r, echo = TRUE, eval = FALSE}
 dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) #Convertendo em corpus
@@ -69,26 +69,43 @@ dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
 ```
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
-## Word cloud: Um gráfico para textos
+## Wordcloud: Um gráfico para textos
+Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Pra isso é que servem os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span>.
+```{r, eval = FALSE, echo = TRUE}
+#Wordcloud
+wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
+	random.order=TRUE, random.color=FALSE, rot.per=.1,
+	colors="black",ordered.colors=FALSE)
 
-<div class="columns-2">
-```{r, echo = FALSE}
-#wordcloud2(dadosTwitter)
-ggplot(cars, aes(speed, dist)) + geom_point()
+#Wordcloud2
+wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
+    fontFamily = 'Segoe UI', fontWeight = 'bold',
+    color = 'random-dark', backgroundColor = "white",
+    minRotation = -pi/4, maxRotation = pi/4, shuffle = TRUE,
+    rotateRatio = 0.4, shape = 'circle', ellipticity = 0.65,
+    widgetsize = NULL, figPath = NULL, hoverFunction = NULL)
+
 ```
 
-Uma boa prática é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. O pacote <span style = "font-family:Courier New">wordcloud2</span> foi construído para isso.
+
+## Wordcloud: um gráfico para textos
+Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console:
+```{r, echo = FALSE, eval = TRUE}
+wordcloud2(demoFreq)
+```
+
+## Wordcloud: Um gráfico para textos
+Ok, está legal, mas podemos melhorar um pouco, não?
+
+Vamos tentar usar alguns parâmetros, para dar forma ao gráfico.
 ```{r, echo = TRUE, eval = FALSE}
-wordcloud2(dadosTwitter)
-#O único argumento necessário é o dataframe
-#Basta que o banco esteja formatado
+wordcloud2(demoFreq,
+    figPath = system.file("examples/t.png", package = "wordcloud2"),
+    color = "skyblue")
 ```
-... Ok, mas será que não poderíamos deixar mais bonitinho? Hmmm, veremos.
-</div>
-
-## Word cloud: Um gráfico para textos
-Podemos usar a função figPath para definir um formato que as palavras vão aparecer, usando uma imagem-base. Também podemos mudar alguns parâmetros da função.
-```{r, echo = TRUE, eval = TRUE}
-figPath <- system.file("twitter.png", package = "wordcloud2")
-wordcloud2(demoFreq, figPath = "twitter.png", size = 1.5, color = "skyblue")
+##Wordcloud: Um gráfico para textos
+```{r, echo = FALSE, eval = TRUE}
+wordcloud2(demoFreq,
+    figPath = system.file("examples/t.png", package = "wordcloud2"),
+    color = "skyblue")
 ```
