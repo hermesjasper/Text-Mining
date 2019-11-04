@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Pacotes
+Primeiramente, precisamos instalar os pacotes necessários para a análise de um site específico, como o Twitter, por exemplo. Para isso, usamos o pacote <span style = "font-family:Courier New">pacman</span> que inclui o <span style = "font-family:Courier New">rTweet</span>, que será a base para a mineração. Além disso, não se esqueça de carregar os pacotes com o library.
+
 ```{r, eval = TRUE}
 options(repos="https://cran.rstudio.com")
 install.packages("pacman", repos="https://cran.rstudio.com")
