@@ -24,6 +24,7 @@ library(pacman)
 pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
               ggplot2, wordcloud, wordcloud2, tidytext,
               stringr, tidyverse, knitr, png, webshot, htmlwidgets)
+
 devtools::install_github("lchiffon/wordcloud2")
 ```
 
@@ -35,7 +36,7 @@ devtools::install_github("lchiffon/wordcloud2")
 
   - A mineração de textos se trata de extrair computacionalmente dados em texto;
   - A análise de textos, por sua vez, é transformar os dados em informação que possa ser usada para algum fim;
-  - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público, etc...;
+  - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público;
   - Em suma, a mineração serve para resumir informações de um banco de textos.
 </div>
 
@@ -75,7 +76,7 @@ dadosTwitter <- search_tweets("insira aqui um termo",
 
 # Nuvens de palavras: Explorando...
 ## Nuvens de palavras: Explorando...
-Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Pra isso, baixaremos os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span>. Com essas "nuvens de palavras", podemos identificar o que é mais mencionado nos textos e ter uma noção sobre o assunto proposto, sendo que o número de menções da palavra é diretamente proporcional ao seu tamanho no gráfico.
+Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
 ```{r, eval = FALSE, echo = TRUE}
 #Wordcloud
 wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
@@ -95,9 +96,10 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 
 ## Nuvens de palavras: Explorando...
 
-Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, então veremos o gráfico abaixo.
+Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
 <span style = "position:center">
 ```{r, echo = FALSE, eval = TRUE}
+wordcloud(words = demoFreq$word, freq = demoFreq$freq, colors = brewer.pal(8,"Dark2"))
 wordcloud2(demoFreq, backgroundColor= "transparent", size = 1)
 ```
 </span>
