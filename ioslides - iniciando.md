@@ -33,7 +33,8 @@ devtools::install_github("lchiffon/wordcloud2")
 
   - A mineração de textos se trata de extrair computacionalmente dados em texto;
   - A análise de textos, por sua vez, é transformar os dados em informação que possa ser usada para algum fim;
-  - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público, etc...
+  - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público, etc...;
+  - Em suma. a mineração serve para resumir informações de um banco de textos.
 </div>
 
 ## Extraindo dados do Twitter
