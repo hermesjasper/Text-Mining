@@ -1,17 +1,14 @@
-library(rvest)
-library(stringr)
-library(reshape2)
-library(tm)
-library(dplyr)
-library(wordcloud)
-library(SnowballC)
-library(wesanderson)
-
+# Carregando os pacotes necessários
+```{r, echo = FALSE, eval = TRUE}
+install.packages(pacman, repos="")
+pacman::p_load(rvest, stringr, reshape2, tm, dplyr, wordcloud, SnowballC, wesanderson)
+```
 #--------------------------pegando as proximas musica---------------  -----------------"
 
 #entro com um arquivo csv chamado nomes ao qual contera o nome dos artistas que escolhi ter musicas.
-nomes<-read.table(file.choose(),header = TRUE)
-tabelao<-data.frame(cod=c(1:10000),link=c(1),musica=c(1))
+```{r}
+nomes <- read.table(file.choose(),header = TRUE)
+tabelao <- data.frame(cod=c(1:10000),link=c(1),musica=c(1))
 dados3<-data.frame(cod=c(1:10000),texto=c(1))
 b=0
 
@@ -28,22 +25,25 @@ db1<-substr(db1,corte[1],corte1[1]-300)
 
 prox<-data.frame(str_locate_all(db1,fixed("href=")))  #estrutura onde começa as letras
 prox1<-data.frame(str_locate_all(db1,fixed("/\"")))   #estrutura onde termina as letras
-
+```
 # substr(db1,prox[1,2],prox1[1,1]) usei pra verificar se tava cortando certo
-
+```{r}
 a<-max(dim(prox1))    #quantos elementos terão de musicas por autor
 for (i in 1:a) {
   tabelao$link[b+i]<-substr(db1,prox[i,2]+2,prox1[i,1])
 }
 b<-(b+a) #b recebe a para ele continuar juntando embaixo
 }
-
+```
+```{r}
 #tabelao <- tabelao %>%                           auxilio pq alguns cantores tava com problema
 #  mutate(c=str_count(tabelao$link,"\\/"))
 #tabelao<-filter(tabelao,c==3)
 #tabelao<-filter(tabelao,musica!=1)
 #write.csv(tabelao,"C:\\Users\\gabriel\\Desktop\\tabelao.csv")  
 b<-max(dim(tabelao))
+```
+
 
 for (linhat in 1:b) {
 urll1<-paste0("https://www.letras.mus.br",tabelao$link[linhat])  #colando site + nome do link
