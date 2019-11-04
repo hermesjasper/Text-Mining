@@ -131,7 +131,7 @@ Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles
 
 # Análise de Sentimentos
 ## O que é Análise de Sentimentos?
-Para o próximo tema, exploraremos a Análise de Sentimentos, que é supor qual conotação um certo trecho vai ter em um banco de textos. Por exemplo, a palavra "Manga" pode significar tanto a fruta como um pedaço de uma camisa, e, como existem esses dois significados, o computador analisará o contexto em que essa palavra se encontra e adivinhará o significado. Esse processo não serve apenas para múltiplos sentidos mas pode ser usado para entender a conotação da palavra, se foi negativo, positivo, etc...  
+Trabalhar com análise de sentimentos é uma das aplicações mais importantes dentro da análise de texto. O cerne da questão é analisar qual é a conotação das palavras que aparecem no texto, utilizando das mesmas ferramentas computacionais mencionadas até o então, como as expressões regulares.
 
 ## Aplicações 
-Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", etc...
+Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", e etc.
