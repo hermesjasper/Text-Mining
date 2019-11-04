@@ -36,9 +36,22 @@ devtools::install_github("lchiffon/wordcloud2")
   - A mineração de textos se trata de extrair computacionalmente dados em texto;
   - A análise de textos, por sua vez, é transformar os dados em informação que possa ser usada para algum fim;
   - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público, etc...;
-  - Em suma. a mineração serve para resumir informações de um banco de textos.
+  - Em suma, a mineração serve para resumir informações de um banco de textos.
 </div>
 
+## Limpando os dados
+Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que converter o banco de dados em Corpus e remover as *stopwords* e a pontuação.
+
+```{r, echo = FALSE}
+#dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
+#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
+```
+```{r, echo = TRUE, eval = FALSE}
+dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) #Convertendo em corpus
+dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) #Removendo stopwords
+dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
+```
+Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 ## Extraindo dados do Twitter
 O pacote <span style = "font-family:Courier New">rTweet</span> foi construído pra extrair dados do Twitter. Para pesquisar por algum termo, por exemplo, podemos usar a função <span style = "font-family:Courier New">search_tweets:</span>
 ```{r, echo = TRUE, eval=FALSE}
@@ -59,23 +72,10 @@ dadosTwitter <- search_tweets("insira aqui um termo",
 ```{r, echo = FALSE, eval = TRUE}
 #dadosTwitter
 ```
-## Limpando os dados
-Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que converter o banco de dados em Corpus e remover as *stopwords* e a pontuação.
-
-```{r, echo = FALSE}
-#dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
-#dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
-```
-```{r, echo = TRUE, eval = FALSE}
-dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) #Convertendo em corpus
-dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) #Removendo stopwords
-dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
-```
-Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
 # Nuvens de palavras: Explorando...
 ## Nuvens de palavras: Explorando...
-Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Pra isso é que servem os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span>.
+Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Pra isso, baixaremos os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span>. Com essas "nuvens de palavras", podemos identificar o que é mais mencionado nos textos e ter uma noção sobre o assunto proposto, sendo que o número de menções da palavra é diretamente proporcional ao seu tamanho no gráfico.
 ```{r, eval = FALSE, echo = TRUE}
 #Wordcloud
 wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
@@ -128,3 +128,10 @@ E voilà! Bem melhor, não é mesmo?
 ## Nuvens de palavras: Explorando...
 
 Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
+
+# Análise de Sentimentos
+## O que é Análise de Sentimentos?
+Para o próximo tema, exploraremos a Análise de Sentimentos, que é supor qual conotação um certo trecho vai ter em um banco de textos. Por exemplo, a palavra "Manga" pode significar tanto a fruta como um pedaço de uma camisa, e, como existem esses dois significados, o computador analisará o contexto em que essa palavra se encontra e adivinhará o significado. Esse processo não serve apenas para múltiplos sentidos mas pode ser usado para entender a conotação da palavra, se foi negativo, positivo, etc...  
+
+## Aplicações 
+Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", etc...
