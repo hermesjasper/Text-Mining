@@ -122,4 +122,5 @@ wordcloud2(demoFreq,
 E voilà! Bem melhor, não é mesmo?
 </div>
 ## Nuvens de palavras: Explorando...
+
 Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
