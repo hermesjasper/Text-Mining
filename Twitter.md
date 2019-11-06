@@ -35,7 +35,7 @@ twitterbolsonaro %>%
 ```{r}
 corpusbolsonaro <- VCorpus(VectorSource(as.character(as.matrix(twitterbolsonaro$text))))
 corpusbolsonaro <- tm_map(corpusbolsonaro, removePunctuation)
-corpusbolsonaro <- tm_map(twitterbolsonaro, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
+corpusbolsonaro <- tm_map(corpusbolsonaro, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
 #Primeira visualização
 ```{r}
