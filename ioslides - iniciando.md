@@ -13,10 +13,7 @@ setwd(getwd())
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Pacotes
-Primeiramente, precisamos instalar os pacotes necessários para a análise de um site específico, como o Twitter, por exemplo. Para isso, usamos o pacote <span style = "font-family:Courier New">pacman</span> que inclui o <span style = "font-family:Courier New">rTweet</span>, que será a base para a mineração. Além disso, não se esqueça de carregar os pacotes com o library.
-
-```{r, eval = TRUE}
+```{r, echo = FALSE, include = FALSE, eval = TRUE}
 options(repos="https://cran.rstudio.com")
 install.packages("pacman", repos="https://cran.rstudio.com")
 library(pacman)
@@ -28,17 +25,28 @@ pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, Snowbal
 devtools::install_github("lchiffon/wordcloud2")
 ```
 
-## Afinal, do que se tratam a análise e a mineração de texto?
+## Mineração de texto
+A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
-<div class="columns-2">
-  <!-- ![big_data_wordcloud](big_data_wordcloud.png) -->
-  <img src="big_data_wordcloud.png" height=450 width=450/ >
+Existem alguns pacotes no R com mecanismos pra coletar dados de sites específicos, como o Twitter, o Facebook e o Instagram. Apesar disso, na maioria das vezes não vão existir pacotes predefinidos para os dados de interesse, e os dados devem ser obtidos à partir do código-fonte da página (em HTML).
 
-  - A mineração de textos se trata de extrair computacionalmente dados em texto;
-  - A análise de textos, por sua vez, é transformar os dados em informação que possa ser usada para algum fim;
-  - Com essa transformação, podemos extrair alguns dados, como análise de sentimentos, uma ideia da reação do público;
-  - Em suma, a mineração serve para resumir informações de um banco de textos.
-</div>
+```{r, eval = FALSE, echo = TRUE}
+library(rtweet)
+library(Rfacebook)
+library(instaR)
+```
+
+## Extraindo dados do Twitter
+O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter. Para pesquisar por algum termo, por exemplo, podemos usar a função <span style = "font-family:Courier New">search_tweets:</span>
+```{r, echo = TRUE, eval=FALSE}
+dadosTwitter <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
+  geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
+  retryonratelimit = FALSE, verbose = TRUE, lang = "...")
+```
+
+
+
+
 
 ## Limpando os dados
 Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que converter o banco de dados em Corpus e remover as *stopwords* e a pontuação.
@@ -53,26 +61,6 @@ dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) #Removendo st
 dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
 ```
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
-## Extraindo dados do Twitter
-O pacote <span style = "font-family:Courier New">rTweet</span> foi construído pra extrair dados do Twitter. Para pesquisar por algum termo, por exemplo, podemos usar a função <span style = "font-family:Courier New">search_tweets:</span>
-```{r, echo = TRUE, eval=FALSE}
-dadosTwitter <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
-  geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
-  retryonratelimit = FALSE, verbose = TRUE, lang = "...")
-```
-Assim, conseguimos dados com todos os *tweets* que citam algum termo que definimos. Por exemplo, se procurarmos por *insira aqui um termo*, obteremos:
-
-```{r, echo = TRUE, eval = FALSE}
-dadosTwitter <- search_tweets("insira aqui um termo",
-                              include_rts = FALSE,
-                              n = 18000,
-                              lang = "pt")
-```
-
-## Extraindo dados do Twitter
-```{r, echo = FALSE, eval = TRUE}
-#dadosTwitter
-```
 
 # Nuvens de palavras: Explorando...
 ## Nuvens de palavras: Explorando...
