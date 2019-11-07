@@ -127,6 +127,10 @@ Trabalhar com análise de sentimentos é uma das aplicações mais importantes d
 Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", e etc.
 Contudo, suas aplicações não se restringem apenas para verificar a relação entre duas coisas, ela pode ser utilizada para ver o feedback de clientes em com um serviço ao analisar a conotação de cada review.
 
+## Aplicações
+Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
+Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
+
 # Trabalhando com "Clusters" 
 Agora, veremos o que são os Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Ou seja, você pode agrupar as análises de formas mais ou menos específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
 
