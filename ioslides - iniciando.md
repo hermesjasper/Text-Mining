@@ -119,6 +119,11 @@ E voilà! Bem melhor, não é mesmo?
 
 Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
 
+## Casos Interessantes
+Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre palavras, ver qual a frequência que elas são usadas uma atrás da outra ou na mesma frase com a função <span style = "font-family:Courier New">unnest_tokens(demoFreq)</span> e colocar <span style = "font-family:Courier New">token(demoFreq)</span> = "ngrams". 
+Ao fazer isso, é possível colocar duas palavras e ver se elas aparecem juntas ocasionalmente e usar a função <span style = "font-family:Courier New">count(demoFreq)</span> .
+OBS: Para "limpar" as análises de observações pouco interessantes ou de baixo impacto na pesquisa, basta utilizar a função <span style = "font-family:Courier New">separate(demoFreq)</span> e <span style = "font-family:Courier New">filter(demoFreq)</span> .
+
 # Análise de Sentimentos
 ## O que é Análise de Sentimentos?
 Trabalhar com análise de sentimentos é uma das aplicações mais importantes dentro da análise de texto. O cerne da questão é analisar qual é a conotação das palavras que aparecem no texto, utilizando das mesmas ferramentas computacionais mencionadas até o então, como as expressões regulares.
