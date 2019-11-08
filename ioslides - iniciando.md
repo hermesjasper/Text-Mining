@@ -63,7 +63,7 @@ dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
 # Nuvens de palavras: Explorando...
-## Nuvens de palavras: Explorando...
+## Wordclouds
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
 ```{r, eval = FALSE, echo = TRUE}
 #Wordcloud
@@ -82,7 +82,7 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 ```
 
 
-## Nuvens de palavras: Explorando...
+## Exemplo
 
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
 <span style = "position:center">
@@ -92,7 +92,7 @@ wordcloud2(demoFreq, backgroundColor= "transparent", size = 1)
 ```
 </span>
 
-## Nuvens de palavras: Explorando...
+## Gráfico
 <div class="columns-2">
   <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
   <img src="wordcloudtwitterexample.png" height=400 width=450/ >
@@ -115,7 +115,7 @@ wordcloud2(demoFreq,
 E voilà! Bem melhor, não é mesmo?
 </div>
 
-## Nuvens de palavras: Explorando...
+## Conclusão***
 
 Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
 
