@@ -1,0 +1,36 @@
+Usarei isto para salvar o código, portanto ignorem o código, mas gostaria de ajuda para resolver o error 'oplexicon_v2.1' not found dessa extração:
+devtools::install_github("sillasgonzaga/lexiconPT")
+lexiconPT::get_word_sentiment('teste')
+
+
+
+
+
+
+pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
+               ggplot2, wordcloud, wordcloud2, tidytext,
+               stringr, tidyverse, knitr, png, webshot, htmlwidgets)
+#Selecionando as base de dados do ifood e UberEats.
+ifood = search_tweets("ifood", n = 8000, include_rts = FALSE,lang = "pt")
+ifood = ifood[,c('text')]
+UberE = search_tweets("uber_eats", n = 8000, include_rts = FALSE,lang = "pt")
+UberE = UberE[,c('text')]
+# Separar cada string em um conjunto de caractéres ser possivel detectar tweets maliciosos para a pesquisa e então removelos.
+# Retirando o spam de Cupons(observei apenas esses 2 padrões).
+length(ifood$text)
+for(i in 1:(length(ifood$text))){
+  if(stringr::str_sub(ifood$text[i],start = 0,end = 6) == 'CUPONS'){
+    ifood$text[i] = '<>'
+  }
+  if(stringr::str_sub(ifood$text[i],start = 0,end = 6) == 'Quer c'){
+    ifood$text[i] = '<>'
+  }
+  if(ifood$text[i] == '<>'){
+    ifood$text[i] = NA        
+  }
+}
+#mesmo processo para 'Ubereats'.
+#Ánalise de sentimentos usando lexiconPT.
+devtools::install_github("sillasgonzaga/lexiconPT")
+lexiconPT::get_word_sentiment('teste')
+#Efetuar o inner.join com a base dados para gerar o sentimento da mesma. 
