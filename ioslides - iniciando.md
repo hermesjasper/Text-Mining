@@ -109,23 +109,28 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 ```
 
 
-## Exemplo
-
+## Wordclouds
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
-<span style = "position:center">
-```{r, echo = FALSE, eval = TRUE}
-wordcloud(words = demoFreq$word, freq = demoFreq$freq, colors = brewer.pal(8,"Dark2"))
-wordcloud2(demoFreq, backgroundColor= "transparent", size = 1)
+<div class="columns-2">
+```{r, fig.align="left", echo = FALSE, eval = TRUE}
+wordcloud(words = demoFreq$word, freq = demoFreq$freq)
 ```
-</span>
 
-## Gráfico
+
+```{r, echo = FALSE, eval = TRUE}
+wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.75, ellipticity = 1)
+```
+</div>
+
+Ok, está legal, mas podemos melhorar um pouco, não?
+
+## Wordclouds | Dando forma aos gráficos
 <div class="columns-2">
   <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
   <img src="wordcloudtwitterexample.png" height=400 width=450/ >
   
   
-Ok, está legal, mas podemos melhorar um pouco, não?
+
 
 Vamos tentar usar alguns parâmetros, para dar forma ao gráfico.
 ```{r, echo = FALSE, eval = FALSE}
