@@ -79,18 +79,14 @@ As chamadas stopwords são palavras comuns da linguagem que, geralmente, não di
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
 meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo as stopwords
+meuCorpus <- tm_map(meuCorpus, removeNumbers) # Removendo os números
 ```
 
 ```{r, echo = FALSE}
 #dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
 #dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
-```{r, echo = TRUE, eval = FALSE}
-dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) # Convertendo em corpus
-dadosTwitter <- tm_map(dadosTwitter, removePunctuation) # Removendo a pontuação
-myCorpus <- tm_map(myCorpus, removeNumbers) # Removendo os números
-dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) # Removendo stopwords
-```
+
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
 # Nuvens de palavras: Explorando...
