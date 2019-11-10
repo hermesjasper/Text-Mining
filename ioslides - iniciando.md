@@ -16,9 +16,7 @@ setwd(getwd())
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r, echo = FALSE, include = FALSE, eval = TRUE}
-options(repos="https://cran.rstudio.com")
-install.packages("pacman", repos="https://cran.rstudio.com")
+```{r, echo = FALSE, include = FALSE, eval = TRUE, message = FALSE}
 library(pacman)
 
 pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
@@ -30,12 +28,12 @@ devtools::install_github("lchiffon/wordcloud2")
 
 # Mineração de texto: Dando os primeiros passos {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
 
-## Pacotes
+## Pacotes {.build}
 A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
-É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
+> É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
 
-Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
+> Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
 
 ```{r, eval = FALSE, echo = TRUE}
 library(rtweet)
@@ -61,13 +59,14 @@ Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar
 
 
 # Pré-processamento {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
-## Convertendo em corpus
+
+## Convertendo em corpus {.build}
 ```{r, eval = FALSE, echo = TRUE}
 library(tm)
 meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
 ```
-## Tokenização
-Tokenizar um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente. Geralmente, os seguintes pacotes são o suficiente:
+<h2>Tokenização</h2>
+*Tokenizar* um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente. Geralmente, os seguintes pacotes são o suficiente:
 ```{r, eval = FALSE, echo = TRUE}
 library(tidyverse)
 library(tidytext)
@@ -75,7 +74,7 @@ library(glue)
 library(data.table)
 ```
 
-## Maiúsculas e minúsculas, pontuação e stopwords
+## Maiúsculas e minúsculas, pontuação e stopwords {.build}
 As chamadas stopwords são palavras comuns da linguagem que, geralmente, não dizem muito sobre o texto, apesar de predominarem em qualquer sentença. Pra que possamos extrair informações relevantes, é importante que, antes limpemos essas palavras. Para isso, podemos usar funções do pacote <span style = "font-family:Courier New">tm</span>
 ```{r, eval = FALSE, echo = TRUE}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
@@ -112,12 +111,12 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
 
-## Wordclouds: Comparando os pacotes
+## Wordclouds: Comparando os pacotes {.build}
 ```{r fig.align="left", eval = TRUE, warning = FALSE, echo = TRUE}
 wordcloud(words = demoFreq$word, freq = demoFreq$freq, ordered.colors = TRUE)
 ```
 
-## Wordclouds: Comparando os pacotes
+## Wordclouds: Comparando os pacotes {.build}
 ```{r, fig.align="center", eval = TRUE, echo = TRUE}
 wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
