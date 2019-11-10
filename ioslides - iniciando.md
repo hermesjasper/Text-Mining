@@ -93,7 +93,7 @@ meuCorpus <- tm_map(meuCorpus, removeNumbers) # Removendo os números
 
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
-# Nuvens de palavras: Explorando... {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+# Análise: Explorando os dados... {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
 ## Wordclouds
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
 ```{r, eval = FALSE, echo = TRUE}
@@ -155,9 +155,12 @@ Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre
 Ao fazer isso, é possível colocar duas palavras e ver se elas aparecem juntas ocasionalmente e usar a função <span style = "font-family:Courier New">count(demoFreq)</span> .
 OBS: Para "limpar" as análises de observações pouco interessantes ou de baixo impacto na pesquisa, basta utilizar a função <span style = "font-family:Courier New">separate(demoFreq)</span> e <span style = "font-family:Courier New">filter(demoFreq)</span> .
 
-# Análise de Sentimentos
-## O que é Análise de Sentimentos?
+## Análise de Sentimentos
 Trabalhar com análise de sentimentos é uma das aplicações mais importantes dentro da análise de texto. O cerne da questão é analisar qual é a conotação das palavras que aparecem no texto, utilizando das mesmas ferramentas computacionais mencionadas até o então, como as expressões regulares.
+
+  <!-- ![reacts](reacts.png) -->
+  <img src="reacts.png" height=250 width=970/ >
+
 
 ## Aplicações 
 Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", e etc.
