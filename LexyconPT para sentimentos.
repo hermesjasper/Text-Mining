@@ -34,3 +34,30 @@ for(i in 1:(length(ifood$text))){
 devtools::install_github("sillasgonzaga/lexiconPT")
 lexiconPT::get_word_sentiment('teste')
 #Efetuar o inner.join com a base dados para gerar o sentimento da mesma. 
+
+## Sobre Clusters:
+Eu peguei esses códigos desse site https://www.tidytextmining.com/sentiment.html no tópico 2.1
+install.packages("tidytext")
+library(tidytext)
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+
+# Pegando os livros para análises
+palavras_sentimentos <- austen_books() %>%
+  group_by(book) %>%
+  mutate(NumLinha = row_number(),
+         capitulo = cumsum(str_detect(text, regex("^chapter [\\divxlc]", 
+                                                 ignore_case = TRUE)))) %>%
+  ungroup() %>%
+  unnest_tokens(word, text)
+  get_sentiments("nrc")
+
+nrc_joy <- get_sentiments("nrc") %>% 
+  filter(sentiment == "joy")
+
+palavras_sentimentos %>%
+  filter(book == "Emma") %>%
+  inner_join(nrc_joy) %>%
+  count(word, sort = TRUE)
+
