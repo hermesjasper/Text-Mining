@@ -52,7 +52,7 @@ meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
 ```
 
-Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos pacotes para nos ajudar. Então... e se não tivermos?
+Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos paocotes para nos ajudar. Então... e se não tivermos?
 
 
 ## Método "força-bruta": Extraindo por HTML
@@ -78,7 +78,7 @@ library(data.table)
 ```
 
 ## Maiúsculas e minúsculas, pontuação e stopwords {.build}
-As chamadas stopwords são palavras comuns da linguagem que, geralmente, não dizem muito sobre o texto, apesar de predominarem em qualquer sentença. Pra que possamos extrair informações relevantes, é importante que, antes limpemos essas palavras. Para isso, podemos usar funções do pacote <span style = "font-family:Courier New">tm</span>
+As chamadas stopwords são palavras comuns da linguagem que, geralmente, não dizem muito sobre o texto, apesar de predominarem em qualquer sentença. Pra que possamos extrair informações relevantes, é importante que, antes limpemos essas palavras. Para isso, podemos usar funções do pacote <span style = "font-family:Courier New">tm</span>.
 ```{r, eval = FALSE, echo = TRUE}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
@@ -114,22 +114,21 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
 
-## Wordclouds: Comparando os pacotes {.build}
+## Wordclouds | Comparando os pacotes {.build}
 ```{r fig.align="left", eval = TRUE, warning = FALSE, echo = TRUE}
 wordcloud(words = demoFreq$word, freq = demoFreq$freq, ordered.colors = TRUE)
 ```
 
-## Wordclouds: Comparando os pacotes {.build}
+## Wordclouds | Comparando os pacotes {.build}
 ```{r, fig.align="center", eval = TRUE, echo = TRUE}
 wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
 
 
-## Wordclouds: Dando forma aos gráficos
+## Wordclouds | Dando forma aos gráficos
 <div class="columns-2">
-  <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
-  <img src="wordcloudtwitterexample.png" height=444 width=500/ >
-  
+<!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
+  <img src="wordcloudtwitterexample.png" height=420 width=490/ >
 
 E que tal se colocássemos ele na forma da logo do Twitter?
 ```{r, echo = FALSE, eval = FALSE}
@@ -146,7 +145,7 @@ wordcloud2(demoFreq,
 E voilà! Bem melhor, não é mesmo?
 </div>
 
-## Análise Competitiva no Twitter: Indústria de Delivery
+## Análise Competitiva no Twitter | Indústria de Delivery
   <!-- ![delivery](delivery.png) -->
   <img src="delivery.png" height=350 width=970/ >
 
@@ -161,12 +160,12 @@ Trabalhar com análise de sentimentos é uma das aplicações mais importantes d
   <!-- ![reacts](reacts.png) -->
   <img src="reacts.png" height=250 width=970/ >
 
-
-## Aplicações 
+## Análise de Sentimentos | Aplicações
 Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se "Macron" é acompanhado de palavras positivas, se "França" possui alguma relação com "revoltas", "revoluções", e etc.
+
 Contudo, suas aplicações não se restringem apenas para verificar a relação entre duas coisas, ela pode ser utilizada para ver o feedback de clientes em com um serviço ao analisar a conotação de cada review.
 
-## Aplicações
+## Análise de Sentimentos | Aplicações
 Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
