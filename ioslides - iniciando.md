@@ -27,9 +27,12 @@ devtools::install_github("lchiffon/wordcloud2")
 ```
 
 # Mineração de texto: Dando os primeiros passos {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+## Mas afinal, por que minerar dados textuais?
+A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
+
 
 ## Pacotes {.build}
-A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
+
 
 > É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
 
@@ -142,6 +145,10 @@ wordcloud2(demoFreq,
 ```
 E voilà! Bem melhor, não é mesmo?
 </div>
+
+## Análise Compatitiva no Twitter: Indústria de Delivery
+  <!-- ![delivery](delivery.png) -->
+  <img src="delivery.png" height=350 width=970/ >
 
 ## Casos Interessantes
 Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre palavras, ver qual a frequência que elas são usadas uma atrás da outra ou na mesma frase com a função <span style = "font-family:Courier New">unnest_tokens(demoFreq)</span> e colocar <span style = "font-family:Courier New">token(demoFreq)</span> = "ngrams". 
