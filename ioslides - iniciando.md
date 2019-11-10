@@ -60,7 +60,7 @@ Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas
 Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
 
 
-# Pré-processamento {data-background=3-statistics-denial-myths-volume-big-data.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+# Pré-processamento {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
 ## Convertendo em corpus
 ```{r, eval = FALSE, echo = TRUE}
 library(tm)
@@ -91,7 +91,7 @@ meuCorpus <- tm_map(meuCorpus, removeNumbers) # Removendo os números
 
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
-# Nuvens de palavras: Explorando...
+# Nuvens de palavras: Explorando... {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
 ## Wordclouds
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
 ```{r, eval = FALSE, echo = TRUE}
@@ -123,13 +123,13 @@ wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
 
 
-## Wordclouds | Dando forma aos gráficos
+## Wordclouds: Dando forma aos gráficos
 <div class="columns-2">
   <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
-  <img src="wordcloudtwitterexample.png" height=400 width=450/ >
+  <img src="wordcloudtwitterexample.png" height=444 width=500/ >
   
 
-Vamos tentar usar alguns parâmetros, para dar forma ao gráfico.
+E que tal se colocássemos ele na forma da logo do Twitter?
 ```{r, echo = FALSE, eval = FALSE}
 wordcloud2(demoFreq,
     figPath = system.file("examples/t.png", package = "wordcloud2"),
@@ -162,7 +162,7 @@ Um ponto importante a se destacar é o algoritmo para realizar esse tipo de rela
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
 # Trabalhando com "Clusters" 
-Agora, veremos o que são os Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Ou seja, você pode agrupar as análises de formas mais ou menos específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
+Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Você pode agrupar as análises de formas específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
 
 ## Exemplo
 Primeiramente, será necessário o pacote <span style = "font-family:Courier New">tidytext</span> para usar a função <span style = "font-family:Courier New">get_sentiment</span>. Com essa função, conseguimos ter alguns parâmetros para os grupos de sentimentos de raiva, felicidade, tristeza, etc... Por exemplo, existe o mais simples <span style = "font-family:Courier New">bing</span>, que apenas julga a conotação em verdadeiro ou falso para cada grupo, sem dar um "valor" para analisar o quão forte foi esse sentimento. Caso seja desejado uma escala para as análises, pode se utilizar <span style = "font-family:Courier New">affin</span>, que varia de -5 até 5 para a "força" do sentimento observado.
