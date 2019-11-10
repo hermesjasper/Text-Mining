@@ -44,7 +44,7 @@ library(instaR)
 ## Extraindo dados do Twitter
 O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter, e uma função interessante dele é <span style = "font-family:Courier New">search_tweets</span>, que procura todos os tweets que seguem os padrões que definimos.
 ```{r, echo = TRUE, eval=FALSE}
-dadosTwitter <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
+meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
 ```
@@ -59,6 +59,11 @@ Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar
 
 
 # Pré-processamento
+## Convertendo em corpus
+```{r, eval = FALSE, echo = TRUE}
+library(tm)
+meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
+```
 ## Tokenização
 Tokenizar um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente. Geralmente, os seguintes pacotes são o suficiente:
 ```{r, eval = FALSE, echo = TRUE}
@@ -68,22 +73,23 @@ library(glue)
 library(data.table)
 ```
 
-## Limpando os dados
-
-## Convertendo em corpus
-Após obter os dados, precisamos limpá-los, de modo que isso facilite a visualização. Para isso, temos diversos recursos e pacotes disponíveis, como o <span style = "font-family:Courier New">stringr</span>, as <span style = "font-family:Courier New">stopwords</span> e o pacote <span style = "font-family:Courier New">tm</span>.
-
-
-Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que converter o banco de dados em Corpus e remover as *stopwords* e a pontuação.
+## Maiúsculas e minúsculas, pontuação e stopwords
+As chamadas stopwords são palavras comuns da linguagem que, geralmente, não dizem muito sobre o texto, apesar de predominarem em qualquer sentença. Pra que possamos extrair informações relevantes, é importante que, antes limpemos essas palavras. Para isso, podemos usar funções do pacote <span style = "font-family:Courier New">tm</span>
+```{r, eval = FALSE, echo = TRUE}
+meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
+meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
+meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo as stopwords
+```
 
 ```{r, echo = FALSE}
 #dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
 #dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
 ```{r, echo = TRUE, eval = FALSE}
-dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) #Convertendo em corpus
-dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) #Removendo stopwords
-dadosTwitter <- tm_map(dadosTwitter, removePunctuation) #Removendo a pontuação
+dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto)) # Convertendo em corpus
+dadosTwitter <- tm_map(dadosTwitter, removePunctuation) # Removendo a pontuação
+myCorpus <- tm_map(myCorpus, removeNumbers) # Removendo os números
+dadosTwitter <- tm_map(dadosTwitter, removeWords, stopwords("pt")) # Removendo stopwords
 ```
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
