@@ -4,8 +4,8 @@ date: "8 de novembro de 2018"
 output:
   ioslides_presentation:
     logo: UnB_logo.png
-    smaller: true
-    widescreen: true
+    smaller: TRUE
+    widescreen: TRUE
     transition: slower
     theme: "lumen"
 ---
@@ -108,29 +108,24 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 
 ```
 
-
-## Wordclouds
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
-<div class="columns-2">
-```{r, fig.align="left", echo = FALSE, eval = TRUE}
-wordcloud(words = demoFreq$word, freq = demoFreq$freq)
+
+## Wordclouds: Comparando os pacotes
+```{r fig.align="left", eval = TRUE, warning = FALSE, echo = TRUE}
+wordcloud(words = demoFreq$word, freq = demoFreq$freq, ordered.colors = TRUE)
 ```
 
-
-```{r, echo = FALSE, eval = TRUE}
-wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.75, ellipticity = 1)
+## Wordclouds: Comparando os pacotes
+```{r, fig.align="center", eval = TRUE, echo = TRUE}
+wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
-</div>
 
-Ok, está legal, mas podemos melhorar um pouco, não?
 
 ## Wordclouds | Dando forma aos gráficos
 <div class="columns-2">
   <!-- ![wordcloudtwitterexample](wordcloudtwitterexample.png) -->
   <img src="wordcloudtwitterexample.png" height=400 width=450/ >
   
-  
-
 
 Vamos tentar usar alguns parâmetros, para dar forma ao gráfico.
 ```{r, echo = FALSE, eval = FALSE}
@@ -146,10 +141,6 @@ wordcloud2(demoFreq,
 ```
 E voilà! Bem melhor, não é mesmo?
 </div>
-
-## Conclusão***
-
-Esses recursos são vastos e podem ser amplamente explorados, e como vimos, eles nos dizem muito sobre o que está acontecendo. Mas enfim, vamos prosseguir para o próximo tema.
 
 ## Casos Interessantes
 Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre palavras, ver qual a frequência que elas são usadas uma atrás da outra ou na mesma frase com a função <span style = "font-family:Courier New">unnest_tokens(demoFreq)</span> e colocar <span style = "font-family:Courier New">token(demoFreq)</span> = "ngrams". 
