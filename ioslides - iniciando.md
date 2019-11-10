@@ -52,7 +52,7 @@ meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
 ```
 
-Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos paocotes para nos ajudar. Então... e se não tivermos?
+Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos pacotes para nos ajudar. Então... e se não tivermos?
 
 
 ## Método "força-bruta": Extraindo por HTML
@@ -146,7 +146,7 @@ wordcloud2(demoFreq,
 E voilà! Bem melhor, não é mesmo?
 </div>
 
-## Análise Compatitiva no Twitter: Indústria de Delivery
+## Análise Competitiva no Twitter: Indústria de Delivery
   <!-- ![delivery](delivery.png) -->
   <img src="delivery.png" height=350 width=970/ >
 
