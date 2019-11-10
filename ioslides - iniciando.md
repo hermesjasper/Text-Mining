@@ -8,6 +8,7 @@ output:
     widescreen: TRUE
     transition: slower
     theme: "lumen"
+    css: Estilos.css
 ---
 
 ```{r, include = FALSE}
@@ -27,7 +28,8 @@ pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, Snowbal
 devtools::install_github("lchiffon/wordcloud2")
 ```
 
-# Mineração de texto: Dando os primeiros passos
+# Mineração de texto: Dando os primeiros passos {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+
 ## Pacotes
 A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
@@ -58,7 +60,7 @@ Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas
 Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
 
 
-# Pré-processamento
+# Pré-processamento {data-background=3-statistics-denial-myths-volume-big-data.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
 ## Convertendo em corpus
 ```{r, eval = FALSE, echo = TRUE}
 library(tm)
