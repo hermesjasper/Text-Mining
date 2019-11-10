@@ -52,8 +52,12 @@ meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
 ```
 
-Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos paocotes para nos ajudar. Então... e se não tivermos?
+Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos paocotes para nos ajudar.
 
+## {data-background=emojipensativo.png data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+<div style="text-align:right">
+<h2>... e se não tivermos nenhum pacote?<h2/>
+</div>
 
 ## Método "força-bruta": Extraindo por HTML
 Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas são sempre marcadas por HTML. A ideia de extrair dados em texto a partir do código-fonte é usar os padrões do HTML para extrair o código de interesse.
@@ -166,13 +170,15 @@ Utilizaremos esse tipo de análise para ver uma tendência à palavras, como se 
 Contudo, suas aplicações não se restringem apenas para verificar a relação entre duas coisas, ela pode ser utilizada para ver o feedback de clientes em com um serviço ao analisar a conotação de cada review.
 
 ## Análise de Sentimentos | Aplicações
-Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
-Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
-
-# Trabalhando com "Clusters" 
-Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Você pode agrupar as análises de formas específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
-
-## Exemplo
 Primeiramente, será necessário o pacote <span style = "font-family:Courier New">tidytext</span> para usar a função <span style = "font-family:Courier New">get_sentiment</span>. Com essa função, conseguimos ter alguns parâmetros para os grupos de sentimentos de raiva, felicidade, tristeza, etc... Por exemplo, existe o mais simples <span style = "font-family:Courier New">bing</span>, que apenas julga a conotação em verdadeiro ou falso para cada grupo, sem dar um "valor" para analisar o quão forte foi esse sentimento. Caso seja desejado uma escala para as análises, pode se utilizar <span style = "font-family:Courier New">affin</span>, que varia de -5 até 5 para a "força" do sentimento observado.
 
 <span style = "font-family:Courier New">get_sentiment</span> ("nrc")
+
+## Análise de Sentimentos | Aplicações
+Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
+Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
+
+# Clusters
+Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Você pode agrupar as análises de formas específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
+
+## Exemplo
