@@ -4,8 +4,10 @@ date: "8 de novembro de 2018"
 output:
   ioslides_presentation:
     logo: UnB_logo.png
+    smaller: true
     widescreen: true
-    css: Estilos.css
+    transition: slower
+    theme: "lumen"
 ---
 
 ```{r, include = FALSE}
@@ -25,10 +27,13 @@ pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, Snowbal
 devtools::install_github("lchiffon/wordcloud2")
 ```
 
-## Mineração de texto
+# Mineração de texto: Dando os primeiros passos
+## Pacotes
 A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
-Existem alguns pacotes no R com mecanismos pra coletar dados de sites específicos, como o Twitter, o Facebook e o Instagram. Apesar disso, na maioria das vezes não vão existir pacotes predefinidos para os dados de interesse, e os dados devem ser obtidos à partir do código-fonte da página (em HTML).
+É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
+
+Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
 
 ```{r, eval = FALSE, echo = TRUE}
 library(rtweet)
@@ -37,18 +42,38 @@ library(instaR)
 ```
 
 ## Extraindo dados do Twitter
-O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter. Para pesquisar por algum termo, por exemplo, podemos usar a função <span style = "font-family:Courier New">search_tweets:</span>
+O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter, e uma função interessante dele é <span style = "font-family:Courier New">search_tweets</span>, que procura todos os tweets que seguem os padrões que definimos.
 ```{r, echo = TRUE, eval=FALSE}
 dadosTwitter <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
 ```
 
+Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as exceções, não a regra, e não podemos esperar que sempre teremos paocotes para nos ajudar. Então... e se não tivermos?
 
 
+## Método "força-bruta": Extraindo por HTML
+Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas são sempre marcadas por HTML. A ideia de extrair dados em texto a partir do código-fonte é usar os padrões do HTML para extrair o código de interesse.
 
+Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
+
+
+# Pré-processamento
+## Tokenização
+Tokenizar um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente. Geralmente, os seguintes pacotes são o suficiente:
+```{r, eval = FALSE, echo = TRUE}
+library(tidyverse)
+library(tidytext)
+library(glue)
+library(data.table)
+```
 
 ## Limpando os dados
+
+## Convertendo em corpus
+Após obter os dados, precisamos limpá-los, de modo que isso facilite a visualização. Para isso, temos diversos recursos e pacotes disponíveis, como o <span style = "font-family:Courier New">stringr</span>, as <span style = "font-family:Courier New">stopwords</span> e o pacote <span style = "font-family:Courier New">tm</span>.
+
+
 Antes de tudo, é **necessário** limpar o banco de dados. Para isso, temos que converter o banco de dados em Corpus e remover as *stopwords* e a pontuação.
 
 ```{r, echo = FALSE}
