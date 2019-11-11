@@ -1,39 +1,98 @@
-Usarei isto para salvar o código, portanto ignorem o código, mas gostaria de ajuda para resolver o error 'oplexicon_v2.1' not found dessa extração:
-devtools::install_github("sillasgonzaga/lexiconPT")
-lexiconPT::get_word_sentiment('teste')
-
-
-
-
-
-
 pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
                ggplot2, wordcloud, wordcloud2, tidytext,
-               stringr, tidyverse, knitr, png, webshot, htmlwidgets)
-#Selecionando as base de dados do ifood e UberEats.
-ifood = search_tweets("ifood", n = 8000, include_rts = FALSE,lang = "pt")
+               stringr, tidyverse, knitr, png, webshot, htmlwidgets,pkgbuild,lexiconPT)
+
+library(lexiconPT)
+ls('package:lexiconPT')
+
+ifood = search_tweets("ifood", n = 10000, include_rts = FALSE,lang = "pt")
 ifood = ifood[,c('text')]
-UberE = search_tweets("uber_eats", n = 8000, include_rts = FALSE,lang = "pt")
+UberE = search_tweets("uber_eats", n = 10000, include_rts = FALSE,lang = "pt")
 UberE = UberE[,c('text')]
-# Separar cada string em um conjunto de caractéres ser possivel detectar tweets maliciosos para a pesquisa e então removelos.
-# Retirando o spam de Cupons(observei apenas esses 2 padrões).
-length(ifood$text)
-for(i in 1:(length(ifood$text))){
-  if(stringr::str_sub(ifood$text[i],start = 0,end = 6) == 'CUPONS'){
-    ifood$text[i] = '<>'
+
+saveIfood = ifood
+saveUberE = UberE
+
+Uber_and_Ifood = rbind(UberE,ifood)
+
+# Função para limpeza dos tweets
+f_clean_tweets <- function (tweets) {
+  
+  clean_tweets <- tweets$text
+  # remove retweet 
+  clean_tweets = gsub('(RT|via)((?:\\b\\W*@\\w+)+)', ' ', clean_tweets)
+  # remove nomes pessoas
+  clean_tweets = gsub('@\\w+', ' ', clean_tweets)
+  # remove pontuaÃ§Ã£o
+  clean_tweets = gsub('[[:punct:]]', ' ', clean_tweets)
+  # remove nÃºmeros
+  clean_tweets = gsub('[[:digit:]]', ' ', clean_tweets)
+  # remove html links
+  clean_tweets = gsub('http\\w+', ' ', clean_tweets)
+  # remove espaÃ§os desnecessÃ¡rios
+  clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)
+  clean_tweets = gsub('^\\s+|\\s+$', ' ', clean_tweets)
+  # remove emojis e caracteres especiais
+  clean_tweets = gsub('<.*>', ' ', enc2native(clean_tweets))
+  # remove quebra de linha
+  clean_tweets = gsub('\\n', ' ', clean_tweets)
+  # remove espaÃ§os desnecessÃ¡rios
+  clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)
+  # coloca tudo em minÃºsculo
+  clean_tweets = tolower(clean_tweets)
+  
+  # remove tweets duplicados
+  tweets$text <- clean_tweets
+  tweets <- tweets[!duplicated(tweets$text),]
+  tweets
+}
+
+Uber_and_Ifood = f_clean_tweets(Uber_and_Ifood)
+
+#Função criada para identificar os spams de promoção e oferta e substorui-los por 'NA'.
+
+for(i in 1:(length(Uber_and_Ifood$text))){
+  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 6) == 'cupons'){
+    Uber_and_Ifood$text[i] = '<>'
   }
-  if(stringr::str_sub(ifood$text[i],start = 0,end = 6) == 'Quer c'){
-    ifood$text[i] = '<>'
+  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 5) == 'cupom'){
+    Uber_and_Ifood$text[i] = '<>'  
+    
   }
-  if(ifood$text[i] == '<>'){
-    ifood$text[i] = NA        
+  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 6) == 'quer c'){
+    Uber_and_Ifood$text[i] = '<>'
+  }
+  if(Uber_and_Ifood$text[i] == '<>'){
+    Uber_and_Ifood$text[i] = NA        
   }
 }
-#mesmo processo para 'Ubereats'.
-#Ánalise de sentimentos usando lexiconPT.
-devtools::install_github("sillasgonzaga/lexiconPT")
-lexiconPT::get_word_sentiment('teste')
-#Efetuar o inner.join com a base dados para gerar o sentimento da mesma. 
+
+#Retirar as colunas que contém valores 'NA'.
+Uber_and_Ifood= Uber_and_Ifood[complete.cases(Uber_and_Ifood[,]),]
+
+#função p/ achar o primeiro  termo do ifood e separar os data frames.
+for(i in 1:8620){
+  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 17) == 'pela primeira vez'){
+    cont = i
+  }
+}
+# Removendo stopwords  
+Uber_and_Ifood$text = removeWords(Uber_and_Ifood$text, stopwords(kind='pt'))
+
+#Dados do Ifood 'Limpos'
+ifood_clean = Uber_and_Ifood[5805:14814,]
+
+#Dados do Ubereats 'Limpos'
+UberE_clean = Uber_and_Ifood[1:5804,]
+
+#Agora que temos os dados do ubereats e ifood limpos vamos à analise de sentimentos.
+
+# carregar datasets
+data("oplexicon_v3.0")
+data("sentiLex_lem_PT02")
+
+op30 <- oplexicon_v3.0
+sent <- sentiLex_lem_PT02 #Em Desenvolvimento!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## Sobre Clusters:
 Eu peguei esses códigos desse site https://www.tidytextmining.com/sentiment.html no tópico 2.1
