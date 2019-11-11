@@ -72,13 +72,50 @@ Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar
 library(tm)
 meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
 ```
-<h2>Tokenização</h2>
-*Tokenizar* um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente. Geralmente, os seguintes pacotes são o suficiente:
-```{r, eval = FALSE, echo = TRUE}
-library(tidyverse)
-library(tidytext)
-library(glue)
-library(data.table)
+## Tokenização
+*Tokenizar* um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente.
+```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
+library(tokenizers)
+```
+Vejamos, por exemplo, como tokenizar um banco de dados de pangramas em português.
+```{r, echo = TRUE, eval = FALSE}
+View(pangramas)
+```
+```{r, eval = TRUE, echo = FALSE, warning = FALSE}
+pangramas <- paste0("Jane quer LP, fax, CD, giz, TV e bom whisky.\n",
+"TV faz quengo explodir com whisky JB.\n",
+"Bancos fúteis pagavam-lhe queijo, whisky e xadrez.\n",
+"Blitz prende ex-vesgo com cheque fajuto.\n",
+"Um pequeno jabuti xereta viu dez cegonhas felizes.\n",
+"Gazeta publica hoje no jornal uma breve nota de faxina na quermesse.\n",
+"Zebras caolhas de Java querem passar fax para moças gigantes de New York.\n",
+"Juiz faz com que whisky de malte baixe logo preço de venda.\n",
+"Pangramas à beça jazem no sótão da memória-dervixe do faquir helênico.\n",
+"João: “Vá às favas, judas, zerê caquético!”; Noé: “Eu? —Vá você, pinguço, linguinha, xibimba!.\n",
+"Luís argüia à Júlia que «brações, fé, chá, óxido, pôr, zângão» eram palavras do português.\n",
+"A famosa Kelly comeu pão infetado com arroz que o Barriga jantou vendo o filme da Wehrmacht xexelenta.\n",
+"À noite, vovô Kowalsky vê o ímã cair no pé do pinguim queixoso e vovó põe açúcar no chá de tâmaras do jabuti feliz.\n")
+  
+pangramas
+```
+
+## Tokenização | Funções 
+Podemos separar todos os dados apenas pela quantidade de letra que queremos.
+```{r, eval = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+options(max.print = 120)
+```
+```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
+tokenize_character_shingles(pangramas, n = 5, n_min = 5)[[1]]
+```
+
+## Tokenização | Funções
+Podemos também separar por palavras, e selecionar palavras a serem omitidas.
+```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][1:18]
+```
+Ou até mesmo por frases:
+```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+tokenize_sentences(pangramas)[[1]][1:7]
 ```
 
 ## Maiúsculas e minúsculas, pontuação e stopwords {.build}
