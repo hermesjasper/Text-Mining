@@ -23,6 +23,7 @@ pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, Snowbal
               ggplot2, wordcloud, wordcloud2, tidytext,
               stringr, tidyverse, knitr, png, webshot, htmlwidgets)
 
+devtools::install_github("hadley/emo")
 devtools::install_github("lchiffon/wordcloud2")
 ```
 
@@ -31,12 +32,10 @@ devtools::install_github("lchiffon/wordcloud2")
 A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
 
-## Pacotes {.build}
+## Método fácil | Pacotes
+É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
 
-
-> É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
-
-> Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
+Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
 
 ```{r, eval = FALSE, echo = TRUE}
 library(rtweet)
@@ -59,7 +58,7 @@ Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as
 <h2>... e se não tivermos nenhum pacote?<h2/>
 </div>
 
-## Método "força-bruta": Extraindo por HTML
+## Método "força-bruta" | Extraindo por HTML
 Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas são sempre marcadas por HTML. A ideia de extrair dados em texto a partir do código-fonte é usar os padrões do HTML para extrair o código de interesse.
 
 Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
@@ -72,6 +71,7 @@ Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar
 library(tm)
 meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
 ```
+
 ## Tokenização
 *Tokenizar* um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente.
 ```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
@@ -108,12 +108,13 @@ options(max.print = 120)
 tokenize_character_shingles(pangramas, n = 5, n_min = 5)[[1]]
 ```
 
-## Tokenização | Funções
-Podemos também separar por palavras, e selecionar palavras a serem omitidas.
+## Tokenização | Funções {.build}
+>Podemos também separar por palavras, e selecionar palavras a serem omitidas.
 ```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][1:18]
 ```
-Ou até mesmo por frases:
+
+>Ou até mesmo por frases:
 ```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 tokenize_sentences(pangramas)[[1]][1:7]
 ```
@@ -160,11 +161,25 @@ Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier
 wordcloud(words = demoFreq$word, freq = demoFreq$freq, ordered.colors = TRUE)
 ```
 
-## Wordclouds | Comparando os pacotes {.build}
+## Wordclouds | Comparando os pacotes
 ```{r, fig.align="center", eval = TRUE, echo = TRUE}
 wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
 
+
+## Seria uma pena se... {.build}
+
+<h2>... fôssemos exigentes...</h2>
+
+\n
+<div class="centered">
+<h2>... e quiséssemos...</h2>
+</div>
+
+\n
+<div style="text-align:right">
+<h2>... MAIS!!</h2>
+</div>
 
 ## Wordclouds | Dando forma aos gráficos
 <div class="columns-2">
