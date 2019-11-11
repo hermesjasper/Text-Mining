@@ -92,7 +92,11 @@ data("oplexicon_v3.0")
 data("sentiLex_lem_PT02")
 
 op30 <- oplexicon_v3.0
-sent <- sentiLex_lem_PT02 #Em Desenvolvimento!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+sent <- sentiLex_lem_PT02 
+
+dados_sentiment = sent[,c('term','polarity')]
+
+names(ifood_clean)[names(ifood_clean)== "text"]<- "term"  #Em Desenvolvimento!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## Sobre Clusters:
 Eu peguei esses códigos desse site https://www.tidytextmining.com/sentiment.html no tópico 2.1
