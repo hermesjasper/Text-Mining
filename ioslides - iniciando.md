@@ -120,7 +120,7 @@ tokenize_sentences(pangramas)[[1]][1:7]
 ```
 
 ## Maiúsculas e minúsculas, pontuação e stopwords {.build}
-As chamadas stopwords são palavras comuns da linguagem que, geralmente, não dizem muito sobre o texto, apesar de predominarem em qualquer sentença. Pra que possamos extrair informações relevantes, é importante que, antes limpemos essas palavras. Para isso, podemos usar funções do pacote <span style = "font-family:Courier New">tm</span>.
+Uma parte importante da análise é, antes de tudo, limpar o banco de dados. Para isso, podemos usar o pacote <span style = "font-family:Courier New">tm</span>.
 ```{r, eval = FALSE, echo = TRUE}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
@@ -169,6 +169,7 @@ wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 
 ## Seria uma pena se... {.build}
 
+\n
 <h2>... fôssemos exigentes...</h2>
 
 \n
