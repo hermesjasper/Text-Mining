@@ -305,3 +305,125 @@ Primeiramente, será necessário o pacote <span style = "font-family:Courier New
 ## Análise de Sentimentos | Aplicações
 Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
+
+##Análise de sentimentos | Exemplo (lexiconPT)
+
+#Detalhes do pacote:
+
+```{r echo=TRUE}
+library(lexiconPT)
+ls('package:lexiconPT')
+```
+
+Dados do ifood e UberE extraídos do twitter com rtweet:
+
+```{r, echo = TRUE, eval=FALSE}
+ifood = search_tweets("ifood", n = 7500, include_rts = FALSE,lang = "pt")
+ifood = ifood[,c('text')]
+UberE = search_tweets("uber_eats", n = 7500, include_rts = FALSE,lang = "pt")
+UberE = UberE[,c('text')]
+Uber_and_Ifood = rbind(UberE,ifood)
+```
+
+Objetivo: análisar qual dos tweets apresenta um padrão mais 'positivo' ou 'negativo', referente à empresa.
+
+##Limpando os tweets:{.build}
+```{r, echo = TRUE, eval=FALSE}
+f_clean_tweets <- function (tweets) {
+  
+  clean_tweets <- tweets$text
+  clean_tweets = gsub('(RT|via)((?:\\b\\W*@\\w+)+)', ' ', clean_tweets)# remove retweet
+  clean_tweets = gsub('@\\w+', ' ', clean_tweets)# remove nomes pessoas
+  clean_tweets = gsub('[[:punct:]]', ' ', clean_tweets)# remove pontuação
+  clean_tweets = gsub('[[:digit:]]', ' ', clean_tweets)# remove números
+  clean_tweets = gsub('http\\w+', ' ', clean_tweets)# remove html links
+  clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)# remove espaços desnecessários
+  clean_tweets = gsub('^\\s+|\\s+$', ' ', clean_tweets)##
+  clean_tweets = gsub('<.*>', ' ', enc2native(clean_tweets))# removecaracteres especiais
+  clean_tweets = gsub('\\n', ' ', clean_tweets)# remove quebra de linha
+  clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)# remove espaços desnecessários
+  clean_tweets = tolower(clean_tweets)# coloca tudo em minúsculo
+  
+  tweets$text <- clean_tweets
+  tweets <- tweets[!duplicated(tweets$text),]# remove tweets duplicados
+  tweets
+Uber_and_Ifood = f_clean_tweets(Uber_and_Ifood)
+```
+```{r, echo = F, eval = TRUE, message = F, warning = F}
+x = 'raiva app ifood'
+x
+```
+
+Retirar espaço em branco ' ' ocasionado pela função clean_tweets:
+
+```{r, echo = TRUE, eval=FALSE}
+for(i in 1:(length(Uber_and_Ifood$text))){
+  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 1) == ' '){
+    Uber_and_Ifood$text[i] = str_sub(Uber_and_Ifood$text[i],start = 2)
+  }
+}
+```
+
+##Base de dados:
+
+```{r echo = TRUE, eval=FALSE}
+ifood_clean = Uber_and_Ifood[cont:length(Uber_and_Ifood$text),]
+UberE_clean = Uber_and_Ifood[1:cont-1),]
+```
+
+Agora que temos os dados do Ubereats e ifood 'limpos' vamos à analise de sentimentos. carregar data.base das palavras e respectivos sentimentos,indicados por polaridades(1,0,-1).
+
+```{r echo=TRUE}
+data("sentiLex_lem_PT02")
+data_base_sentimetnos = sentiLex_lem_PT02
+data_base_sentimetnos = data_base_sentimetnos[,1:3] 
+data_base_sentimetnos[1:9,]
+```
+
+##Método da análise
+Iremos observar a 'polaridade' que cada palavra recebe, dese modo polaridade = 0 (neutro) polaridade = 1(positiva) e polaridade = -1(negativa), mas primeiro precisamos atribui a cada palavra dos tweets seus respectivos 'polos' (usando a função inner.join).
+```{r echo=TRUE, eval=FALSE}
+palavras_ifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
+palavras_UberE <- UberE_clean %>% unnest_tokens(UberE_clean, text)
+
+#Alterar os nomes para no próximo passo(inner_join) juntar por eles.
+
+names(palavras_ifood)[names(palavras_ifood)== "ifood_clean"]<- "term"
+names(palavras_UberE)[names(palavras_UberE)== "UberE_clean"]<- "term"
+
+```
+Desse modo nós temos todas as palavras de todos os tweets do ifood/UberE armazenados em um coluna, sendo cada palavra uma linha:
+
+```{r, echo = F, eval = TRUE, message = F, warning = F}
+data.frame(term = c('raiva','app','ifood','paguei','loop'))
+```
+## Inner join
+Agora temos um data.frame com cada palavra sendo uma linha, assim podendo executar o inner.join para analise de sentimentos:
+
+```{r, echo = TRUE, eval=FALSE}
+sentimentos_ifood = palavras_ifood %>% 
+    inner_join(dados_sentiment, by = "term")
+sentimentos_UberE = palavras_UberE  %>% 
+    inner_join(dados_sentiment, by = "term")
+```
+```{r, echo = F, eval = TRUE, message = F, warning = F}
+data.frame(term = c('raiva','bom','feio','perfeito','burrice'),
+           grammar_category = c('N','Adj','Adj','Adj','N'),
+           polarity = c(-1,1,-1,1,-1))
+```
+Agora efetuando a média da polaridade em ambos Ifood e UberEats com a média = 1(perfeitamente positivo), média = 0(neutro) e média = -1(perfeitamente negativo)
+```{r echo=TRUE, eval=FALSE}
+media_ifood = mean(sentimentos_ifood$polarity)
+media_UberE = mean(sentimentos_UberE$polarity)
+
+resumo_sentimentos = data.frame(ifood = mean(sentimentos_ifood$polarity),
+                                UberEats = mean(sentimentos_UberE$polarity),
+                                row.names = 'Média Polaridade')
+```
+##Conclusão
+```{r, echo = F, eval = TRUE, message = F, warning = F}
+data.frame(ifood = c('-0.22533311'),
+           UberEats = c('-0.31374237'),
+           row.names = 'Média Polaridade')
+```
+Com essa demonstração é possivel observar que, com base no banco de dados de sentimentos lexiconPT, ambos UberEats e Ifood possuem uma média de tweets negativas com o UberEats sendo mais difamado do que o ifood.
