@@ -1,0 +1,61 @@
+# Clusters.
+## Funções.
+Os Clusters são parte integral da análise de sentimentos, sendo de extrema importância para agrupar as informações e deixar conciso.
+Sem eles, as análises seriam bem mais confusas e de difícil acesso.
+Com isso, vamos para os exemplos!
+
+## Exemplos.
+Primeiramente, vamos instalar os pacotes necessários para obter os sentimentos de um banco de dados de livros da Jane Austen.
+``` install.packages("tidytext")
+library(tidytext)
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+pacman::p_load(janeaustenr,stringr,dplyr,tidytext,textdata)
+```
+Depois de instalados, precisamos realizar a análise e colocar em matrizes as palavras para o R poder fazer seu trabalho.
+``` palavras_sentimentos <- austen_books() %>%
+  group_by(book) %>%
+  mutate(NumLinha = row_number(),
+         capitulo = cumsum(str_detect(text, regex("^chapter [\\divxlc]", 
+                                                 ignore_case = TRUE)))) %>%
+  ungroup() %>%
+  unnest_tokens(word, text)
+```
+Porém, os Clusters possuem funções muito interessantes, podendo efetuar apenas a análise de sentimento das palavras até enumerar a
+força desse sentimento, como é o caso da função "nrc" e "afinn", respectivamente.
+
+```install.packages("afinn")
+install.packages("bing")
+install.packages("nrc")
+```
+
+Vamos, por exemplo, pegar as palavras com conotação de alegria e tristeza dos livros. 
+```get_sentiments("nrc")
+
+nrc_alegria <- get_sentiments("nrc") %>% 
+  filter(sentiment == "joy")
+
+palavras_sentimentos %>%
+  filter(book == "Emma") %>%
+  inner_join(nrc_joy) %>%
+  count(word, sort = TRUE)
+
+
+get_sentiments("nrc")
+
+nrc_triste <- get_sentiments("nrc") %>% 
+  filter(sentiment == "sadness")
+
+palavras_sentimentos %>%
+  filter(book == "Emma") %>%
+  inner_join(nrc_joy) %>%
+  count(word, sort = TRUE)
+```
+
+Da mesma forma, podemos ver a força dos sentimentos usados para essas palavras.
+```get_sentiments("afinn")
+```
+Ou, caso se queira so saber se as palavras foram utilizadas negativa ou positivamente, também é possível.
+```get_sentiments("bing")
+```
