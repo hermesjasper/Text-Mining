@@ -376,7 +376,7 @@ data_base_sentimetnos[1:9,]
 ```
 
 ## Método da análise
-Iremos observar a 'polaridade' que cada palavra recebe, dese modo polaridade = 0 (neutro) polaridade = 1(positiva) e polaridade = -1(negativa), mas primeiro precisamos atribui a cada palavra dos tweets seus respectivos 'polos' (usando a função inner.join).
+Iremos observar a 'polaridade' que cada palavra recebe, desse modo polaridade = 0 (neutro) polaridade = 1(positiva) e polaridade = -1(negativa), mas primeiro precisamos atribui a cada palavra dos tweets seus respectivos 'polos' (usando a função inner.join).
 ```{r echo=TRUE, eval=FALSE}
 palavras_ifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
 palavras_UberE <- UberE_clean %>% unnest_tokens(UberE_clean, text)
@@ -421,4 +421,4 @@ data.frame(ifood = c('-0.22533311'),
            UberEats = c('-0.31374237'),
            row.names = 'Média Polaridade')
 ```
-Com essa demonstração é possivel observar que, com base no banco de dados de sentimentos lexiconPT, ambos UberEats e Ifood possuem uma média de tweets negativas com o UberEats sendo mais difamado do que o ifood.
+Com essa demonstração é possivel observar que, com base no banco de dados de sentimentos lexiconPT(sentiLex_lem_PT02), ambos UberEats e Ifood possuem uma média de tweets negativas com o UberEats sendo mais difamado do que o ifood.
