@@ -306,9 +306,9 @@ Primeiramente, será necessário o pacote <span style = "font-family:Courier New
 Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
-##Análise de sentimentos | Exemplo (lexiconPT)
+## Análise de sentimentos | Exemplo (lexiconPT)
 
-#Detalhes do pacote:
+# Detalhes do pacote:
 
 ```{r echo=TRUE}
 library(lexiconPT)
@@ -327,7 +327,7 @@ Uber_and_Ifood = rbind(UberE,ifood)
 
 Objetivo: análisar qual dos tweets apresenta um padrão mais 'positivo' ou 'negativo', referente à empresa.
 
-##Limpando os tweets:{.build}
+## Limpando os tweets:{.build}
 ```{r, echo = TRUE, eval=FALSE}
 f_clean_tweets <- function (tweets) {
   
@@ -364,7 +364,7 @@ for(i in 1:(length(Uber_and_Ifood$text))){
 }
 ```
 
-##Base de dados:
+## Base de dados:
 
 ```{r echo = TRUE, eval=FALSE}
 ifood_clean = Uber_and_Ifood[cont:length(Uber_and_Ifood$text),]
@@ -380,7 +380,7 @@ data_base_sentimetnos = data_base_sentimetnos[,1:3]
 data_base_sentimetnos[1:9,]
 ```
 
-##Método da análise
+## Método da análise
 Iremos observar a 'polaridade' que cada palavra recebe, dese modo polaridade = 0 (neutro) polaridade = 1(positiva) e polaridade = -1(negativa), mas primeiro precisamos atribui a cada palavra dos tweets seus respectivos 'polos' (usando a função inner.join).
 ```{r echo=TRUE, eval=FALSE}
 palavras_ifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
@@ -420,7 +420,7 @@ resumo_sentimentos = data.frame(ifood = mean(sentimentos_ifood$polarity),
                                 UberEats = mean(sentimentos_UberE$polarity),
                                 row.names = 'Média Polaridade')
 ```
-##Conclusão
+## Conclusão
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
 data.frame(ifood = c('-0.22533311'),
            UberEats = c('-0.31374237'),
