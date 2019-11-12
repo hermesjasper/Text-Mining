@@ -52,7 +52,7 @@ library(Rfacebook)
 library(instaR)
 ```
 
-## Extraindo dados do Twitter
+## Método fácil | Extraindo dados do Twitter
 O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter, e uma função interessante dele é <span style = "font-family:Courier New">search_tweets</span>, que procura todos os tweets que seguem os padrões que definimos.
 ```{r, echo = T, eval=FALSE}
 meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
@@ -68,9 +68,59 @@ Isso facilita muito o trabalho de mineração. Apesar disso, esses casos são as
 </div>
 
 ## Método "força-bruta" | Extraindo por HTML
-Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas são sempre marcadas por HTML. A ideia de extrair dados em texto a partir do código-fonte é usar os padrões do HTML para extrair o código de interesse.
+<div class="columns-2">
+<!-- ![capturar](capturar.png) -->
+  <img src="capturar.png" height=420 width=490/ >
+  
+\n
+Todas as páginas na rede possuem um código-fonte que pode ser acessado e manipulado via pacotes.
+```{r, eval = F, echo = T}
+library(httr)
+library(xml2)
+library(rvest)
+```
 
-Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
+Contudo, para um melhor vislumbre das ferramentas textuais, utilizaremos do pacote <span style = "font-family:Courier New">stringr</span> justaposto a expressões regulares que tem como intuito encontrar padrões no HTML e extrair os dados pertinentes.
+
+</div>
+## Banco de dados | Músicas
+<div class="columns-2">
+<!-- ![capturar1](capturar1.png) -->
+  <img src="capturar1.png"/ >
+
+Ao lado é elucidado o código de web scraping, o qual primariamente cria dois dataframes, responsáveis por alocar as informações de interesse. "Tabelao" conterá o sítio para acesso à música e o nome da mesma, enquanto "dados3" terá a letra da música.
+
+## Banco de dados | Músicas
+<div class="columns-2">
+<!-- ![capturar2](capturar2.png) -->
+  <img src="capturar2.png"/ >
+ 
+Agora, com base nos sítios salvos em "tabelao", a coleta de todas as letras das musicas torna-se possível.
+
+</div>
+
+
+## Resultados | Musicas
+*Tabelao*
+```{r, eval = TRUE, echo = FALSE}
+ds<-read.csv("C:/Users/gabriel.reis/Desktop/atmt/Análise e mineração de textos/mpb.csv")
+dst<-read.csv("C:/Users/gabriel.reis/Desktop/atmt/Análise e mineração de textos/mpbt.csv")
+
+head(ds[,3],n=2)
+```
+*Dados3*
+```{r, eval = TRUE, echo = FALSE}
+head(dst[,3:4],n=2)
+```
+## Análise Semântica | Via transformação
+<div class="columns-2">
+
+<!-- ![rplot](rplot.png) -->
+  <img src="rplot.png"/ >
+  
+  
+Ao lado é mostrado uma análise semântica do conteúdo de gênero musical *MPB*. Para isso, transformamos as ocorrências das palavras em português para inglês e, com o auxílio do pacote <span style = "font-family:Courier New">syuzhet</span>, classificamos as palavras utilizando a função <span style = "font-family:Courier New">get_nrc_sentiment()</span>.
+</div>
 
 
 # {data-background=text_data_mining.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
@@ -221,7 +271,7 @@ wordcloud2(demoFreq,
     figPath = "twitter.png",
     color = "skyblue")
 ```
-E voilà! Bem melhor, não é mesmo?
+E *voilà*! Bem melhor, não é mesmo?
 </div>
 
 ## Análise Competitiva no Twitter | Indústria de Delivery
@@ -262,16 +312,15 @@ ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
 
 ```
 
-##Nuvem de palavras das 3 empresas
-Lembrando que a função wordcloud 2 pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber eats que removeu as palavras 'desconto' e iFood.
+## Análise Competitiva no Twitter | Nuvem de palavras das 3 empresas
+A função <span style = "font-family:Courier New">wordcloud2</span> pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber Eats que removeu as palavras "desconto" e "iFood".
 
-##Gráfico temporal dos tweets que mencionam algumas das empresas
+## Análise Competitiva no Twitter | Série temporal dos tweets que mencionam algumas das empresas
 ```{r, echo = F, eval = T, message = F, warning = F}
-tweetsempresas <- read.csv("C:/Users/kevsd/Documents/UnB/Computação/Computação em Estatística/Análise e mineração de textos/tweetsempresas.csv")
+tweetsempresas <- read.csv("C:/Users/gabriel.reis/Desktop/atmt/Análise e mineração de textos/tweetsempresas.csv")
 tweetsempresas$created_at <- ymd_hms(tweetsempresas$created_at)
 ```
-<div class="columns-2">
-```{r, echo = T, eval = T, message = F, warning = F}
+```{r, echo = T, eval = F, message = F, warning = F}
 tweetsempresas %>%
   dplyr::filter(created_at > "2019-10-01") %>%
   dplyr::group_by(empresa) %>%
@@ -290,9 +339,32 @@ tweetsempresas %>%
   ) +
   ggplot2::scale_color_manual(values=c('red', 'blue', 'green'))
 ```
-</div>
-##Essas empresas também usam a mineração de texto!
-Como observado nesse estudo a empresa Rappi utiliza robôs para divulgar seus serviços e seus descontos, em alguns casos esses robôs são programados para encontrar combinações entre palavras que possivelmente indicam fome ou então apego aos descontos da empresa.
+
+
+## Análise Competitiva no Twitter | Série temporal dos tweets que mencionam algumas das empresas
+```{r, echo = F, eval = T, message = F, warning = F}
+tweetsempresas %>%
+  dplyr::filter(created_at > "2019-10-01") %>%
+  dplyr::group_by(empresa) %>%
+  ts_plot("hour", trim = 1L) +
+  ggplot2::geom_line() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequência de tweets que mencionam as empresas estudadas",
+    subtitle = "Tweets recolhidos de 6/11/19 até 10/11/19",
+    caption = "Fonte: Dados coletados do API REST do Twitter via rTweet"
+  ) +
+  ggplot2::scale_color_manual(values=c('red', 'blue', 'green'))
+```
+
+## ... Essas empresas também usam a mineração de texto!
+Como observado nesse estudo, a empresa Rappi utiliza robôs para divulgar seus serviços e seus descontos. Em alguns casos esses robôs são programados para encontrar combinações entre palavras que possivelmente indicam fome ou então apego aos descontos da empresa.
+
 ## Casos Interessantes
 Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre palavras, ver qual a frequência que elas são usadas uma atrás da outra ou na mesma frase com a função <span style = "font-family:Courier New">unnest_tokens(demoFreq)</span> e colocar <span style = "font-family:Courier New">token(demoFreq)</span> = "ngrams". 
 Ao fazer isso, é possível colocar duas palavras e ver se elas aparecem juntas ocasionalmente e usar a função <span style = "font-family:Courier New">count(demoFreq)</span> .
