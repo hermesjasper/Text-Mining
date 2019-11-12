@@ -13,31 +13,40 @@ output:
 
 ```{r, include = FALSE}
 setwd(getwd())
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = F)
 ```
 
-```{r, echo = FALSE, include = FALSE, eval = TRUE, message = FALSE}
+```{r, echo = F, include = FALSE, eval = TRUE, message = FALSE}
 library(pacman)
 
 pacman::p_load(devtools, dplyr, rtweet, tm, RColorBrewer, cluster, fpc, httpuv,
-              ggplot2, wordcloud, tidytext, SnowballC,  htmlwidgets,
+              ggplot2, wordcloud, tidytext, SnowballC, htmlwidgets, lexiconPT,
               stringr, tidyverse, knitr, png, webshot, remotes, lubridate)
 
 remotes::install_github("lchiffon/wordcloud2")
 pacman::p_load(wordcloud2)
 ```
 
-# Mineração de texto: Dando os primeiros passos {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+# {data-background=text_data_mining.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+<h2><span style="color: #000000;">Mineração: Primeiros passos</span><h2/>
 ## Mas afinal, por que minerar dados textuais?
+<div class="columns-2">
+<!-- ![dados_rede](dados_rede.jpg) -->
+  <img src="dados_rede.jpg" height=460 width=450/ >
+  <span style="font-size: small;">Fonte: Faculdade de Informática e Administração Paulista</span>
+  
+  
 A mineração de texto é um recurso utilizado por cientistas de dados para coletar dados em forma de texto, visando obter informações relevantes.
 
+A quantidade de dados em texto disponível é grande demais para ser ignorada, e ela cresce juntamente com o crescimento da internet. Então... por que ignorar tantos dados? Quanta informação podemos extrair deles?
+</div>
 
 ## Método fácil | Pacotes
 É comum que esse texto seja minerado de redes sociais ou de sites abertos a comentários, como sites de notícias, jornais, sites de streaming de vídeos como o YouTube, e alguns outros.
 
 Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = F, echo = TRUE}
 library(rtweet)
 library(Rfacebook)
 library(instaR)
@@ -64,10 +73,11 @@ Todas as páginas na rede possuem um código-fonte que pode ser acessado, e elas
 Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar funções para que ele vá atrás desses padrões.
 
 
-# Pré-processamento {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+# {data-background=text_data_mining.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+<h2><span style="color: #000000;">Pré-processamento</span><h2/>
 
 ## Convertendo em corpus {.build}
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = F, echo = TRUE}
 library(tm)
 meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
 ```
@@ -78,10 +88,10 @@ meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do
 library(tokenizers)
 ```
 Vejamos, por exemplo, como tokenizar um banco de dados de pangramas em português.
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = F}
 View(pangramas)
 ```
-```{r, eval = TRUE, echo = FALSE, warning = FALSE}
+```{r, eval = TRUE, echo = F, warning = FALSE}
 pangramas <- paste0("Jane quer LP, fax, CD, giz, TV e bom whisky.\n",
 "TV faz quengo explodir com whisky JB.\n",
 "Bancos fúteis pagavam-lhe queijo, whisky e xadrez.\n",
@@ -101,7 +111,7 @@ pangramas
 
 ## Tokenização | Funções 
 Podemos separar todos os dados apenas pela quantidade de letra que queremos.
-```{r, eval = TRUE, warning = FALSE, message = FALSE, echo = FALSE}
+```{r, eval = TRUE, warning = FALSE, message = FALSE, echo = F}
 options(max.print = 120)
 ```
 ```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
@@ -111,7 +121,7 @@ tokenize_character_shingles(pangramas, n = 5, n_min = 5)[[1]]
 ## Tokenização | Funções {.build}
 >Podemos também separar por palavras, e selecionar palavras a serem omitidas.
 ```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
-tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][1:18]
+tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][c(1:5,7:9,11:16,17:22)]
 ```
 
 >Ou até mesmo por frases:
@@ -120,11 +130,11 @@ tokenize_sentences(pangramas)[[1]][1:7]
 ```
 
 ## Limpando o banco de dados | Maiúsculas, minúsculas e pontuação {.build}
-Para deixar o texto mais "legível" computacionalmente, é fundamental torná-lo mais homogêneo, para evitar, por exemplo, que o computador interprete a mesma palavra como algo diferente por capitalização.
-```{r, eval = FALSE, echo = TRUE}
+Para deixar o texto mais "legível" computacionalmente, é fundamental torná-lo mais homogêneo. O pacote <span style = "font-family:Courier New">tm</span> possui algumas funções interessantes para limpar dados em texto..
+```{r, eval = F, echo = TRUE}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
-meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo as stopwords
+meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo palavras
 meuCorpus <- tm_map(meuCorpus, removeNumbers) # Removendo os números
 ```
 
@@ -138,17 +148,19 @@ options(max.print = 63)
 stopwords("pt")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = F}
 #dadosTwitter <- VCorpus(VectorSource(dadosTwitter$texto))
 #dadosTwitter <- tm_map(dadosTwitter, removeWords, c(stopwords("pt"), "acho","aqui","bolsonaro","cê","dar","dia","entao","entrar","faz","fazer","fica","ficar","gente","indo","mim","nada","nao","nessa","pois","porque","pra","pro","quer","queria","quero","quis","sair","sao","sei","ser","sim","tá","tava","ter","tô","toda","tudo","vai","vcs","vem","ver","voce","vou"))
 ```
 
 Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos lá!
 
-# Análise: Explorando os dados... {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+# {data-background=text_data_mining.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
+<h2><span style="color: #000000;">Explorando os dados...</span><h2/>
+
 ## Wordclouds
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = F, echo = TRUE}
 #Wordcloud
 wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
 	random.order=TRUE, random.color=FALSE, rot.per=.1,
@@ -198,13 +210,13 @@ wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
   <img src="wordcloudtwitterexample.png" height=420 width=490/ >
 
 E que tal se colocássemos ele na forma da logo do Twitter?
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = F, eval = F}
 wordcloud2(demoFreq,
     figPath = system.file("examples/t.png", package = "wordcloud2"),
     color = "skyblue")
 ```
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = F}
 wordcloud2(demoFreq,
     figPath = "twitter.png",
     color = "skyblue")
@@ -251,7 +263,7 @@ ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
 ```
 
 ##Nuvem de palavras das 3 empresas
-Lembrando que a função wordcloud 2 pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber eats que removeu as palavras 'desconto' e ifood.
+Lembrando que a função wordcloud 2 pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber eats que removeu as palavras 'desconto' e iFood.
 
 ##Gráfico temporal dos tweets que mencionam algumas das empresas
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
@@ -306,28 +318,28 @@ Primeiramente, será necessário o pacote <span style = "font-family:Courier New
 Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
-## Análise de sentimentos | Exemplo (lexiconPT)
-
-Detalhes do pacote:
-
-```{r echo=TRUE}
+## Análise de Sentimentos | Exemplo (lexiconPT)
+```{r echo=TRUE, eval = F}
 library(lexiconPT)
 ls('package:lexiconPT')
 ```
-
-Dados do ifood e UberE extraídos do twitter com rtweet:
-
-```{r, echo = TRUE, eval=FALSE}
-ifood = search_tweets("ifood", n = 7500, include_rts = FALSE,lang = "pt")
-ifood = ifood[,c('text')]
-UberE = search_tweets("uber_eats", n = 7500, include_rts = FALSE,lang = "pt")
-UberE = UberE[,c('text')]
-Uber_and_Ifood = rbind(UberE,ifood)
+```{r, echo = F, eval = T}
+ls('package:lexiconPT')
 ```
 
-Objetivo: análisar qual dos tweets apresenta um padrão mais 'positivo' ou 'negativo', referente à empresa.
+Dados do iFood e Uber Eats extraídos do Twitter com <span style = "font-family:Courier New">rtweet</span>:
 
-## Limpando os tweets:{.build}
+```{r, echo = TRUE, eval=FALSE}
+iFood = search_tweets("iFood", n = 7500, include_rts = FALSE,lang = "pt")
+iFood = iFood[,c('text')]
+UberE = search_tweets("uber_eats", n = 7500, include_rts = FALSE,lang = "pt")
+UberE = UberE[,c('text')]
+Uber_and_ifood = rbind(UberE,iFood)
+```
+
+Vamos analisar qual dos tweets apresenta um padrão mais positivo ou negativo referente à empresa.
+
+## Análise de Sentimentos | Limpando os tweets {.build}
 ```{r, echo = TRUE, eval=FALSE}
 f_clean_tweets <- function (tweets) {
   
@@ -342,58 +354,59 @@ f_clean_tweets <- function (tweets) {
   clean_tweets = tolower(clean_tweets)# coloca tudo em minúsculo
   tweets$text <- clean_tweets
   tweets <- tweets[!duplicated(tweets$text),]# remove tweets duplicados
-Uber_and_Ifood = f_clean_tweets(Uber_and_Ifood)
+Uber_and_ifood = f_clean_tweets(Uber_and_ifood)
 ```
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
-x = 'raiva app ifood'
+x = 'raiva app iFood'
 x
 ```
 
-Retirar espaço em branco ' ' ocasionado pela função clean_tweets:
+## Análise de Sentimentos | Limpando os tweets {.build}
+Retirar espaço em branco ' ' ocasionado pela função <span style = "font-family:Courier New">clean_tweets</span>:
 
 ```{r, echo = TRUE, eval=FALSE}
-for(i in 1:(length(Uber_and_Ifood$text))){
-  if(stringr::str_sub(Uber_and_Ifood$text[i],start = 0,end = 1) == ' '){
-    Uber_and_Ifood$text[i] = str_sub(Uber_and_Ifood$text[i],start = 2)
+for(i in 1:(length(Uber_and_ifood$text))){
+  if(stringr::str_sub(Uber_and_ifood$text[i],start = 0,end = 1) == ' '){
+    Uber_and_ifood$text[i] = str_sub(Uber_and_ifood$text[i],start = 2)
   }
 }
 ```
 
-## Base de dados:
-
+## Análise de Sentimentos | Base de dados
 ```{r echo = TRUE, eval=FALSE}
-ifood_clean = Uber_and_Ifood[cont:length(Uber_and_Ifood$text),]
-UberE_clean = Uber_and_Ifood[1:cont-1),]
+ifood_clean = Uber_and_ifood[cont:length(Uber_and_ifood$text),]
+UberE_clean = Uber_and_ifood[1:(cont-1),]
 ```
 
-Agora que temos os dados do Ubereats e ifood 'limpos' vamos à analise de sentimentos. carregar data.base das palavras e respectivos sentimentos,indicados por polaridades(1,0,-1).
+Agora que temos os dados do Uber Eats e iFood limpos vamos à analise de sentimentos. 
 
 ```{r echo=TRUE}
+# Carregando o data.base das palavras e respectivos sentimentos, indicados por polaridades (1,0,-1)
 data("sentiLex_lem_PT02")
-data_base_sentimetnos = sentiLex_lem_PT02
-data_base_sentimetnos = data_base_sentimetnos[,1:3] 
-data_base_sentimetnos[1:9,]
+data_base_sentimentos = sentiLex_lem_PT02
+data_base_sentimentos = data_base_sentimentos[,1:3]
+data_base_sentimentos[1:9,]
 ```
 
-## Método da análise
-Iremos observar a 'polaridade' que cada palavra recebe, desse modo polaridade = 0 (neutro) polaridade = 1(positiva) e polaridade = -1(negativa), mas primeiro precisamos atribui a cada palavra dos tweets seus respectivos 'polos' (usando a função inner.join).
+## Análise de Sentimentos | Polaridade
+A polaridade de cada palavra vai ser classificada da forma: 0 = neutra, 1 = positiva e -1 = negativa. Mas primeiro, precisamos atribuir a cada palavra dos tweets seus respectivos polos usando a função <span style = "font-family:Courier New">inner.join()</span>.
 ```{r echo=TRUE, eval=FALSE}
-palavras_ifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
+palavrasifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
 palavras_UberE <- UberE_clean %>% unnest_tokens(UberE_clean, text)
 
-#Alterar os nomes para, no próximo passo(inner.join) juntar por eles.
+#Alterar os nomes para, no próximo passo (inner.join), juntar por eles.
 
-names(palavras_ifood)[names(palavras_ifood)== "ifood_clean"]<- "term"
+names(palavrasifood)[names(palavrasifood)== "ifood_clean"]<- "term"
 names(palavras_UberE)[names(palavras_UberE)== "UberE_clean"]<- "term"
-
 ```
-Desse modo nós temos todas as palavras de todos os tweets do ifood/UberE armazenados em um coluna, sendo cada palavra uma linha:
+Desse modo nós temos todas as palavras de todos os tweets do iFood/UberE armazenados em um coluna, sendo cada palavra uma linha.
 
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
-data.frame(term = c('raiva','app','ifood','paguei','loop'))
+data.frame(term = c('raiva','app','iFood','paguei','loop'))
 ```
-## Inner.join
-Agora temos um data.frame com cada palavra sendo uma linha, assim podendo executar o inner.join para analise de sentimentos:
+
+## Análise de sentimentos | inner.join()
+Agora temos um <span style = "font-family:Courier New">dataframe</span> com cada palavra sendo uma linha. Podemos então executar o <span style = "font-family:Courier New">inner.join()</span> para análise de sentimentos.
 
 ```{r, echo = TRUE, eval=FALSE}
 sentimentos_ifood = palavras_ifood %>% 
@@ -406,19 +419,21 @@ data.frame(term = c('raiva','bom','feio','perfeito','burrice'),
            grammar_category = c('N','Adj','Adj','Adj','N'),
            polarity = c(-1,1,-1,1,-1))
 ```
-Agora efetuando a média da polaridade em ambos Ifood e UberEats com a média = 1(perfeitamente positivo), média = 0(neutro) e média = -1(perfeitamente negativo)
+
+## Análise de sentimentos | inner.join()
+Agora efetuando a média da polaridade em ambos iFood e UberEats com a média = 1 (perfeitamente positivo), média = 0 (neutro) e média = -1 (perfeitamente negativo)
 ```{r echo=TRUE, eval=FALSE}
 media_ifood = mean(sentimentos_ifood$polarity)
 media_UberE = mean(sentimentos_UberE$polarity)
 
-resumo_sentimentos = data.frame(ifood = mean(sentimentos_ifood$polarity),
+resumo_sentimentos = data.frame(iFood = mean(sentimentos_ifood$polarity),
                                 UberEats = mean(sentimentos_UberE$polarity),
                                 row.names = 'Média Polaridade')
 ```
-## Conclusão
+
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
-data.frame(ifood = c('-0.22533311'),
+data.frame(iFood = c('-0.22533311'),
            UberEats = c('-0.31374237'),
            row.names = 'Média Polaridade')
 ```
-Com essa demonstração é possivel observar que, com base no banco de dados de sentimentos lexiconPT(sentiLex_lem_PT02), ambos UberEats e Ifood possuem uma média de tweets negativas com o UberEats sendo mais difamado do que o ifood.
+Com essa demonstração é possivel observar que, com base no banco de dados de sentimentos <span style = "font-family:Courier New">lexiconPT</span>, ambos Uber Eats e iFood possuem uma média de tweets negativas com o Uber Eats sendo mais difamado do que o iFood.
