@@ -307,8 +307,7 @@ Um ponto importante a se destacar é o algoritmo para realizar esse tipo de rela
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
 ## Análise de sentimentos | Exemplo (lexiconPT)
-
-# Detalhes do pacote:
+Detalhes do pacote:
 
 ```{r echo=TRUE}
 library(lexiconPT)
