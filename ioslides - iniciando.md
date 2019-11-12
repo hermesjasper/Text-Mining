@@ -307,6 +307,7 @@ Um ponto importante a se destacar é o algoritmo para realizar esse tipo de rela
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
 
 ## Análise de sentimentos | Exemplo (lexiconPT)
+
 Detalhes do pacote:
 
 ```{r echo=TRUE}
@@ -331,21 +332,16 @@ Objetivo: análisar qual dos tweets apresenta um padrão mais 'positivo' ou 'neg
 f_clean_tweets <- function (tweets) {
   
   clean_tweets <- tweets$text
-  clean_tweets = gsub('(RT|via)((?:\\b\\W*@\\w+)+)', ' ', clean_tweets)# remove retweet
   clean_tweets = gsub('@\\w+', ' ', clean_tweets)# remove nomes pessoas
   clean_tweets = gsub('[[:punct:]]', ' ', clean_tweets)# remove pontuação
   clean_tweets = gsub('[[:digit:]]', ' ', clean_tweets)# remove números
-  clean_tweets = gsub('http\\w+', ' ', clean_tweets)# remove html links
   clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)# remove espaços desnecessários
   clean_tweets = gsub('^\\s+|\\s+$', ' ', clean_tweets)##
   clean_tweets = gsub('<.*>', ' ', enc2native(clean_tweets))# removecaracteres especiais
   clean_tweets = gsub('\\n', ' ', clean_tweets)# remove quebra de linha
-  clean_tweets = gsub('[ \t]{2,}', ' ', clean_tweets)# remove espaços desnecessários
   clean_tweets = tolower(clean_tweets)# coloca tudo em minúsculo
-  
   tweets$text <- clean_tweets
   tweets <- tweets[!duplicated(tweets$text),]# remove tweets duplicados
-  tweets
 Uber_and_Ifood = f_clean_tweets(Uber_and_Ifood)
 ```
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
@@ -385,7 +381,7 @@ Iremos observar a 'polaridade' que cada palavra recebe, dese modo polaridade = 0
 palavras_ifood <- ifood_clean %>% unnest_tokens(ifood_clean, text)
 palavras_UberE <- UberE_clean %>% unnest_tokens(UberE_clean, text)
 
-#Alterar os nomes para no próximo passo(inner_join) juntar por eles.
+#Alterar os nomes para, no próximo passo(inner.join) juntar por eles.
 
 names(palavras_ifood)[names(palavras_ifood)== "ifood_clean"]<- "term"
 names(palavras_UberE)[names(palavras_UberE)== "UberE_clean"]<- "term"
@@ -396,7 +392,7 @@ Desse modo nós temos todas as palavras de todos os tweets do ifood/UberE armaze
 ```{r, echo = F, eval = TRUE, message = F, warning = F}
 data.frame(term = c('raiva','app','ifood','paguei','loop'))
 ```
-## Inner join
+## Inner.join
 Agora temos um data.frame com cada palavra sendo uma linha, assim podendo executar o inner.join para analise de sentimentos:
 
 ```{r, echo = TRUE, eval=FALSE}
