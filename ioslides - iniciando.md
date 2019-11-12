@@ -19,12 +19,12 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r, echo = FALSE, include = FALSE, eval = TRUE, message = FALSE}
 library(pacman)
 
-pacman::p_load(devtools, rtweet, tm, RColorBrewer, cluster, fpc, httpuv, SnowballC,
-              ggplot2, wordcloud, wordcloud2, tidytext,
-              stringr, tidyverse, knitr, png, webshot, htmlwidgets)
+pacman::p_load(devtools, dplyr, rtweet, tm, RColorBrewer, cluster, fpc, httpuv,
+              ggplot2, wordcloud, tidytext, SnowballC,  htmlwidgets,
+              stringr, tidyverse, knitr, png, webshot, remotes, lubridate)
 
-devtools::install_github("hadley/emo")
-devtools::install_github("lchiffon/wordcloud2")
+remotes::install_github("lchiffon/wordcloud2")
+pacman::p_load(wordcloud2)
 ```
 
 # Mineração de texto: Dando os primeiros passos {data-background=text-mining-image.jpg  data-background-size=cover #azul .flexbox  .vcenter .centrobaixo}
@@ -119,13 +119,23 @@ tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][1:18]
 tokenize_sentences(pangramas)[[1]][1:7]
 ```
 
-## Maiúsculas e minúsculas, pontuação e stopwords {.build}
-Uma parte importante da análise é, antes de tudo, limpar o banco de dados. Para isso, podemos usar o pacote <span style = "font-family:Courier New">tm</span>.
+## Limpando o banco de dados | Maiúsculas, minúsculas e pontuação {.build}
+Para deixar o texto mais "legível" computacionalmente, é fundamental torná-lo mais homogêneo, para evitar, por exemplo, que o computador interprete a mesma palavra como algo diferente por capitalização.
 ```{r, eval = FALSE, echo = TRUE}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
 meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo as stopwords
 meuCorpus <- tm_map(meuCorpus, removeNumbers) # Removendo os números
+```
+
+## Limpando o banco de dados | Stopwords {.build}
+Stopwords são palavras que, apesar de predominarem no texto, não dizem muito sobre ele. Geralmente, é ideal que sejam removidas para prosseguir com a análise.
+```{r, echo = F, eval = T, message = F, warning = F}
+options(max.print = 63)
+```
+
+```{r, echo = T, eval = T, message = F, warning = F}
+stopwords("pt")
 ```
 
 ```{r, echo = FALSE}
@@ -205,7 +215,72 @@ E voilà! Bem melhor, não é mesmo?
 ## Análise Competitiva no Twitter | Indústria de Delivery
   <!-- ![delivery](delivery.png) -->
   <img src="delivery.png" height=350 width=970/ >
+  
+## Análise Competitiva no Twitter | Palavras mais frequentes
+```{r, echo = F, eval = T, warning = F, message = F}
+rappi_plot <- as.data.frame(
+      matrix(
+        data = c("gkz310126052", 14317, "frete", 11362, "cupom", 11340, "ganhe", 9552, "desconto", 8813, "150", 6388,"código", 5706,"grátis", 5179, "r150", 4516, "app", 4025),
+        byrow = TRUE,
+        ncol = 2
+    )
+)
+names(rappi_plot) <- c("word","freq")
+```
 
+```{r, echo = T, eval = F, warning = F, message = F}
+#Criando o grafico
+ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  ggtitle("Grafico de barras com os termos mais frequentes") +
+  labs(y="Frequencia", x = "Termos")
+
+```
+
+## Análise Competitiva no Twitter | Palavras mais frequentes
+Percebemos que essas palavras possuem um certo padrão e parecem estar incluidas nos mesmos tweets, ou então em variações do mesmo tweet.
+```{r, echo = F, eval = TRUE, warning = F, message = F}
+#Criando o grafico
+ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  ggtitle("Grafico de barras com os termos mais frequentes") +
+  labs(y="Frequencia", x = "Termos")
+
+```
+
+##Nuvem de palavras das 3 empresas
+Lembrando que a função wordcloud 2 pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber eats que removeu as palavras 'desconto' e ifood.
+
+##Gráfico temporal dos tweets que mencionam algumas das empresas
+```{r, echo = F, eval = TRUE, message = F, warning = F}
+tweetsempresas <- read.csv("C:/Users/kevsd/Documents/UnB/Computação/Computação em Estatística/Análise e mineração de textos/tweetsempresas.csv")
+tweetsempresas$created_at <- ymd_hms(tweetsempresas$created_at)
+```
+<div class="columns-2">
+```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+tweetsempresas %>%
+  dplyr::filter(created_at > "2019-10-01") %>%
+  dplyr::group_by(empresa) %>%
+  ts_plot("hour", trim = 1L) +
+  ggplot2::geom_line() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequência de tweets que mencionam as empresas estudadas",
+    subtitle = "Tweets recolhidos de 6/11/19 até 10/11/19",
+    caption = "Fonte: Dados coletados do API REST do Twitter via rTweet"
+  ) +
+  ggplot2::scale_color_manual(values=c('red', 'blue', 'green'))
+```
+</div>
+##Essas empresas também usam a mineração de texto!
+Como observado nesse estudo a empresa Rappi utiliza robôs para divulgar seus serviços e seus descontos, em alguns casos esses robôs são programados para encontrar combinações entre palavras que possivelmente indicam fome ou então apego aos descontos da empresa.
 ## Casos Interessantes
 Algo muito peculiar que pode ser feito é tentar estabelecer correlações entre palavras, ver qual a frequência que elas são usadas uma atrás da outra ou na mesma frase com a função <span style = "font-family:Courier New">unnest_tokens(demoFreq)</span> e colocar <span style = "font-family:Courier New">token(demoFreq)</span> = "ngrams". 
 Ao fazer isso, é possível colocar duas palavras e ver se elas aparecem juntas ocasionalmente e usar a função <span style = "font-family:Courier New">count(demoFreq)</span> .
@@ -230,8 +305,3 @@ Primeiramente, será necessário o pacote <span style = "font-family:Courier New
 ## Análise de Sentimentos | Aplicações
 Um ponto importante a se destacar é o algoritmo para realizar esse tipo de relação é que existem inúmeros algoritmos que fazem esse tipo de trabalho, então a eficiência das análises depende das funções utilizadas.
 Como por exemplo, <span style = "font-family:Courier New">coreNLP</span>, <span style = "font-family:Courier New">cleanNLP</span> e <span style = "font-family:Courier New">sentimetr</span> .
-
-# Clusters
-Clusters, que são formas de organizar em grupos as análises feitas para os sentimentos. Você pode agrupar as análises de formas específicas, de acordo com o que você quer no momento, sendo não restringido apenas aos próprios sentimentos.
-
-## Exemplo
