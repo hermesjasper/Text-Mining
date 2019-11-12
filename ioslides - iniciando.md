@@ -16,7 +16,7 @@ setwd(getwd())
 knitr::opts_chunk$set(echo = F)
 ```
 
-```{r, echo = F, include = FALSE, eval = TRUE, message = FALSE}
+```{r, echo = F, include = FALSE, eval = T, message = F}
 library(pacman)
 
 pacman::p_load(devtools, dplyr, rtweet, tm, RColorBrewer, cluster, fpc, httpuv,
@@ -46,7 +46,7 @@ A quantidade de dados em texto disponível é grande demais para ser ignorada, e
 
 Devido ao fato de alguns sites serem minerados com frequência, existem alguns pacotes que podem facilitar ao minerar dados de alguns sites. Por exemplo, nós temos pacotes no R para minerar dados do Twitter, do Facebook e do Instagram.
 
-```{r, eval = F, echo = TRUE}
+```{r, eval = F, echo = T}
 library(rtweet)
 library(Rfacebook)
 library(instaR)
@@ -54,7 +54,7 @@ library(instaR)
 
 ## Extraindo dados do Twitter
 O pacote <span style = "font-family:Courier New">rTweet</span> foi construído para extrair dados do Twitter, e uma função interessante dele é <span style = "font-family:Courier New">search_tweets</span>, que procura todos os tweets que seguem os padrões que definimos.
-```{r, echo = TRUE, eval=FALSE}
+```{r, echo = T, eval=FALSE}
 meu_dataFrame <- search_tweets(q, n = 100, type = "recent", include_rts = TRUE,
   geocode = NULL, max_id = NULL, parse = TRUE, token = NULL,
   retryonratelimit = FALSE, verbose = TRUE, lang = "...")
@@ -77,21 +77,21 @@ Para isso, devemos utilizar o R para entrar no código-fonte da página, e criar
 <h2><span style="color: #000000;">Pré-processamento</span><h2/>
 
 ## Convertendo em corpus {.build}
-```{r, eval = F, echo = TRUE}
+```{r, eval = F, echo = T}
 library(tm)
 meuCorpus <- Corpus(VectorSource(meu_dataFrame)) # Criando um corpus a partir do dataframe
 ```
 
 ## Tokenização
 *Tokenizar* um texto é fundamentalmente dividir ele em unidades menores que possam ser mais facilmente analisadas computacionalmente.
-```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, eval = T, echo = T, warning = F, message = F}
 library(tokenizers)
 ```
 Vejamos, por exemplo, como tokenizar um banco de dados de pangramas em português.
-```{r, echo = TRUE, eval = F}
+```{r, echo = T, eval = F}
 View(pangramas)
 ```
-```{r, eval = TRUE, echo = F, warning = FALSE}
+```{r, eval = T, echo = F, warning = F}
 pangramas <- paste0("Jane quer LP, fax, CD, giz, TV e bom whisky.\n",
 "TV faz quengo explodir com whisky JB.\n",
 "Bancos fúteis pagavam-lhe queijo, whisky e xadrez.\n",
@@ -111,27 +111,27 @@ pangramas
 
 ## Tokenização | Funções 
 Podemos separar todos os dados apenas pela quantidade de letra que queremos.
-```{r, eval = TRUE, warning = FALSE, message = FALSE, echo = F}
+```{r, eval = T, warning = F, message = F, echo = F}
 options(max.print = 120)
 ```
-```{r, eval = TRUE, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, eval = T, echo = T, warning = F, message = F}
 tokenize_character_shingles(pangramas, n = 5, n_min = 5)[[1]]
 ```
 
 ## Tokenização | Funções {.build}
 >Podemos também separar por palavras, e selecionar palavras a serem omitidas.
-```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+```{r, eval = T, echo = T, message = F, warning = F}
 tokenize_words(pangramas, stopwords = stopwords("pt"))[[1]][c(1:5,7:9,11:16,17:22)]
 ```
 
 >Ou até mesmo por frases:
-```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+```{r, eval = T, echo = T, message = F, warning = F}
 tokenize_sentences(pangramas)[[1]][1:7]
 ```
 
 ## Limpando o banco de dados | Maiúsculas, minúsculas e pontuação {.build}
 Para deixar o texto mais "legível" computacionalmente, é fundamental torná-lo mais homogêneo. O pacote <span style = "font-family:Courier New">tm</span> possui algumas funções interessantes para limpar dados em texto..
-```{r, eval = F, echo = TRUE}
+```{r, eval = F, echo = T}
 meuCorpus <- tm_map(meuCorpus, tolower) # Tornando todas as letras minúsculas
 meuCorpus <- tm_map(meuCorpus, removePunctuation) # Removendo a pontuação
 meuCorpus <- tm_map(meuCorpus, removeWords, stopwords("pt")) # Removendo palavras
@@ -160,7 +160,7 @@ Após a limpeza dos dados, podemos avaliar o que os dados têm a dizer. Vamos l�
 
 ## Wordclouds
 Uma prática útil (e divertida!) é criar *wordclouds* (nuvens de palavras), que fornecem uma boa visualização dos termos que mais frequentes. Os pacotes <span style = "font-family:Courier New">wordcloud</span> e <span style = "font-family:Courier New">wordcloud2</span> são apropriados pra isso. Esses gráficos ordenam as palavras pela frequência com que aparecem nos dados.
-```{r, eval = F, echo = TRUE}
+```{r, eval = F, echo = T}
 #Wordcloud
 wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
 	random.order=TRUE, random.color=FALSE, rot.per=.1,
@@ -179,12 +179,12 @@ wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
 Podemos fazer um exemplo bem simples, rodando <span style = "font-family:Courier New">wordcloud(demoFreq\$word, demoFreq\$freq)</span> e <span style = "font-family:Courier New">wordcloud2(demoFreq)</span> no console, e então comparar os dois pacotes.
 
 ## Wordclouds | Comparando os pacotes {.build}
-```{r fig.align="left", eval = TRUE, warning = FALSE, echo = TRUE}
+```{r fig.align="left", eval = T, warning = F, echo = T}
 wordcloud(words = demoFreq$word, freq = demoFreq$freq, ordered.colors = TRUE)
 ```
 
 ## Wordclouds | Comparando os pacotes
-```{r, fig.align="center", eval = TRUE, echo = TRUE}
+```{r, fig.align="center", eval = T, echo = T}
 wordcloud2(demoFreq, backgroundColor= "transparent", size = 0.9)
 ```
 
@@ -216,7 +216,7 @@ wordcloud2(demoFreq,
     color = "skyblue")
 ```
 
-```{r, echo = TRUE, eval = F}
+```{r, echo = T, eval = F}
 wordcloud2(demoFreq,
     figPath = "twitter.png",
     color = "skyblue")
@@ -252,7 +252,7 @@ ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
 
 ## Análise Competitiva no Twitter | Palavras mais frequentes
 Percebemos que essas palavras possuem um certo padrão e parecem estar incluidas nos mesmos tweets, ou então em variações do mesmo tweet.
-```{r, echo = F, eval = TRUE, warning = F, message = F}
+```{r, echo = F, eval = T, warning = F, message = F}
 #Criando o grafico
 ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
   geom_bar(stat = "identity") + 
@@ -266,12 +266,12 @@ ggplot(rappi_plot, aes(x = reorder(word, -freq), y = freq)) +
 Lembrando que a função wordcloud 2 pode remover algumas palavras importantes para conseguir montar o desenho indicado no código, o que aconteceu na nuvem da empresa Uber eats que removeu as palavras 'desconto' e iFood.
 
 ##Gráfico temporal dos tweets que mencionam algumas das empresas
-```{r, echo = F, eval = TRUE, message = F, warning = F}
+```{r, echo = F, eval = T, message = F, warning = F}
 tweetsempresas <- read.csv("C:/Users/kevsd/Documents/UnB/Computação/Computação em Estatística/Análise e mineração de textos/tweetsempresas.csv")
 tweetsempresas$created_at <- ymd_hms(tweetsempresas$created_at)
 ```
 <div class="columns-2">
-```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+```{r, echo = T, eval = T, message = F, warning = F}
 tweetsempresas %>%
   dplyr::filter(created_at > "2019-10-01") %>%
   dplyr::group_by(empresa) %>%
@@ -329,7 +329,7 @@ ls('package:lexiconPT')
 
 Dados do iFood e Uber Eats extraídos do Twitter com <span style = "font-family:Courier New">rtweet</span>:
 
-```{r, echo = TRUE, eval=FALSE}
+```{r, echo = T, eval=FALSE}
 iFood = search_tweets("iFood", n = 7500, include_rts = FALSE,lang = "pt")
 iFood = iFood[,c('text')]
 UberE = search_tweets("uber_eats", n = 7500, include_rts = FALSE,lang = "pt")
@@ -340,7 +340,7 @@ Uber_and_ifood = rbind(UberE,iFood)
 Vamos analisar qual dos tweets apresenta um padrão mais positivo ou negativo referente à empresa.
 
 ## Análise de Sentimentos | Limpando os tweets {.build}
-```{r, echo = TRUE, eval=FALSE}
+```{r, echo = T, eval=FALSE}
 f_clean_tweets <- function (tweets) {
   
   clean_tweets <- tweets$text
@@ -356,7 +356,7 @@ f_clean_tweets <- function (tweets) {
   tweets <- tweets[!duplicated(tweets$text),]# remove tweets duplicados
 Uber_and_ifood = f_clean_tweets(Uber_and_ifood)
 ```
-```{r, echo = F, eval = TRUE, message = F, warning = F}
+```{r, echo = F, eval = T, message = F, warning = F}
 x = 'raiva app iFood'
 x
 ```
@@ -364,7 +364,7 @@ x
 ## Análise de Sentimentos | Limpando os tweets {.build}
 Retirar espaço em branco ' ' ocasionado pela função <span style = "font-family:Courier New">clean_tweets</span>:
 
-```{r, echo = TRUE, eval=FALSE}
+```{r, echo = T, eval=FALSE}
 for(i in 1:(length(Uber_and_ifood$text))){
   if(stringr::str_sub(Uber_and_ifood$text[i],start = 0,end = 1) == ' '){
     Uber_and_ifood$text[i] = str_sub(Uber_and_ifood$text[i],start = 2)
@@ -373,7 +373,7 @@ for(i in 1:(length(Uber_and_ifood$text))){
 ```
 
 ## Análise de Sentimentos | Base de dados
-```{r echo = TRUE, eval=FALSE}
+```{r echo = T, eval=FALSE}
 ifood_clean = Uber_and_ifood[cont:length(Uber_and_ifood$text),]
 UberE_clean = Uber_and_ifood[1:(cont-1),]
 ```
@@ -401,20 +401,20 @@ names(palavras_UberE)[names(palavras_UberE)== "UberE_clean"]<- "term"
 ```
 Desse modo nós temos todas as palavras de todos os tweets do iFood/UberE armazenados em um coluna, sendo cada palavra uma linha.
 
-```{r, echo = F, eval = TRUE, message = F, warning = F}
+```{r, echo = F, eval = T, message = F, warning = F}
 data.frame(term = c('raiva','app','iFood','paguei','loop'))
 ```
 
 ## Análise de sentimentos | inner.join()
 Agora temos um <span style = "font-family:Courier New">dataframe</span> com cada palavra sendo uma linha. Podemos então executar o <span style = "font-family:Courier New">inner.join()</span> para análise de sentimentos.
 
-```{r, echo = TRUE, eval=FALSE}
+```{r, echo = T, eval=FALSE}
 sentimentos_ifood = palavras_ifood %>% 
     inner_join(dados_sentiment, by = "term")
 sentimentos_UberE = palavras_UberE  %>% 
     inner_join(dados_sentiment, by = "term")
 ```
-```{r, echo = F, eval = TRUE, message = F, warning = F}
+```{r, echo = F, eval = T, message = F, warning = F}
 data.frame(term = c('raiva','bom','feio','perfeito','burrice'),
            grammar_category = c('N','Adj','Adj','Adj','N'),
            polarity = c(-1,1,-1,1,-1))
@@ -431,7 +431,7 @@ resumo_sentimentos = data.frame(iFood = mean(sentimentos_ifood$polarity),
                                 row.names = 'Média Polaridade')
 ```
 
-```{r, echo = F, eval = TRUE, message = F, warning = F}
+```{r, echo = F, eval = T, message = F, warning = F}
 data.frame(iFood = c('-0.22533311'),
            UberEats = c('-0.31374237'),
            row.names = 'Média Polaridade')
