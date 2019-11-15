@@ -29,10 +29,10 @@ Isto é, as nuvens de palavras nos mostram com que frequência as palavras apare
 
 Entendeu? É simples! Mas vamos ver como funciona na prática.
 
-# Rodando os códigos
+# Sobre o banco de dados
 Pois bem, antes de tudo, é importante fazer todo o processo de limpeza de dados que mostramos em outros tutoriais. Mas pra não mostrar isso aqui, eu vou usar o ```demoFreq```, que é um banco de dados que já está limpo e vem juntamente com o pacote ```wordcloud2```, e supor que já fizemos o processo de limpeza de dados necessário.
 
-O demoFreq é um banco de dados com duas variáveis, words (palavras) e freq (frequência).
+O demoFreq é um banco de dados com duas variáveis, words (palavras) e freq (frequência). E é assim que tem que estar o banco de dados para que você faça as nuvens de palavras. 
 ```
 print(demoFreq)
 
@@ -61,3 +61,13 @@ price                 price   13
 barrels             barrels   11
  [ reached 'max' / getOption("max.print") -- omitted 999 rows ]
  ```
+ 
+# Usando as funções
+O primeiro pacote, ```wordcloud```, tem os seguintes parâmetros a serem explorados:
+```wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
+	random.order=TRUE, random.color=FALSE, rot.per=.1,
+	colors="black",ordered.colors=FALSE,use.r.layout=FALSE,
+	fixed.asp=TRUE, ...)
+ ```
+ Os principais, entre todos eles, são ```words``` e ```freq```. Mas no geral, eles são:
+ *word: 
