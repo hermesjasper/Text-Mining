@@ -1,6 +1,6 @@
 Olá pessoal! Kev aqui.
 
-Essa página é um tutorial sobre como usar os pacotes wordcloud e wordcloud2 no R. Pois bem, sejam bem vindos. Antes de tudo, obviamente, vamos baixar os pacotes:
+Essa página é um tutorial sobre como usar os pacotes ```wordcloud``` e ```wordcloud2``` no R. Pois bem, sejam bem vindos. Antes de tudo, obviamente, vamos baixar os pacotes:
 ```
 install.packages(c("remotes", "wordcloud"))
 library(remotes)
@@ -10,7 +10,7 @@ remotes::install_github("lchiffon/wordcloud2")
 library(wordcloud2)
 ```
 
-Caso o pacote remotes não funcione, tente trocá-lo por devtools:
+Caso o pacote ```remotes``` não funcione, tente trocá-lo por ```devtools```:
 ```
 install.packages(c("devtools", "wordcloud"))
 library(devtoolss)
@@ -30,7 +30,7 @@ Isto é, as nuvens de palavras nos mostram com que frequência as palavras apare
 Entendeu? É simples! Mas vamos ver como funciona na prática.
 
 # Rodando os códigos
-Pois bem, antes de tudo, é importante fazer todo o processo de limpeza de dados que mostramos em outros tutoriais. Mas pra não mostrar isso aqui, eu vou usar o demoFreq, que é um banco de dados que já está limpo e vem juntamente com o pacote wordcloud2, e supor que já fizemos o processo de limpeza de dados necessário.
+Pois bem, antes de tudo, é importante fazer todo o processo de limpeza de dados que mostramos em outros tutoriais. Mas pra não mostrar isso aqui, eu vou usar o ```demoFreq```, que é um banco de dados que já está limpo e vem juntamente com o pacote ```wordcloud2```, e supor que já fizemos o processo de limpeza de dados necessário.
 
 O demoFreq é um banco de dados com duas variáveis, words (palavras) e freq (frequência).
 ```
