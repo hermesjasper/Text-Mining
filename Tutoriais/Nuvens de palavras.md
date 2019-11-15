@@ -79,4 +79,12 @@ wordcloud(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,
  - ```colors```: Define a cor que as palavras vão aparecer;
  - ```ordered.colors```: Atribui ordem para as cores;
  
- 
+O ```wordcloud2``` muito parecido, embora tenha algumas opções diferentes e seja melhor em vários aspectos:
+```
+wordcloud2(data, size = 1, minSize = 0, gridSize =  0,
+    fontFamily = 'Segoe UI', fontWeight = 'bold',
+    color = 'random-dark', backgroundColor = "white",
+    minRotation = -pi/4, maxRotation = pi/4, shuffle = TRUE,
+    rotateRatio = 0.4, shape = 'circle', ellipticity = 0.65,
+    widgetsize = NULL, figPath = NULL, hoverFunction = NULL)
+```
