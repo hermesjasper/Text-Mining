@@ -69,5 +69,13 @@ O primeiro pacote, ```wordcloud```, tem os seguintes parâmetros a serem explora
 	colors="black",ordered.colors=FALSE,use.r.layout=FALSE,
 	fixed.asp=TRUE, ...)
  ```
- Os principais, entre todos eles, são ```words``` e ```freq```. Mas no geral, eles são:
- *word: 
+ As necessárias para ao código rodar são são ```words``` e ```freq```. e as funções que vamos precisar, no geral, são as seguintes:
+ - ```words```: Coluna contendo as palavras;
+ - ```freq```: Coluna contendo o número de vezes que cada palavra aparece;
+ - ```min.freq```: Número mínimo de vezes que a palavra deve aparecer no banco, para que apareça no gráfico;
+ - ```random.order```: Define se a ordem que as palavras aparecem é aleatória ou não. Se definir como ```FALSE```, as palavras retornam em frequência decrescente;
+ - ```random.color```: Define se as cores que as palavras aparecem será aleatória ou não. Se ```FALSE```, o output organiza as cores segundo sua frequência;
+ - ```colors```: Define a cor que as palavras vão aparecer;
+ - ```ordered.colors```: Atribui ordem para as cores;
+ 
+ 
