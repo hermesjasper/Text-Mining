@@ -15,4 +15,5 @@ Se quisermos minerar tweets onde aparece uma citação a um termo, como "flameng
 ```
 dadosTwitter <- search_tweets("flamengo", n = 50, type = "recent")
 ```
+Esse pacote apresenta algumas limitações no API, onde o limite de tweets que você pode extrair a cada 15 min é 18.000. Qualquer número maior que esse será bloqueado pelo programa.
 
