@@ -108,7 +108,7 @@ Média da polaridade indicando o grau do sentimento, sendo mais proximo de 0 = n
 ```
 media_ifood = mean(sentimentos_ifood$polarity)
 ```
-Para vizualização:
+Para vizualização ->
 ```
 data.frame(ifood = c(media_ifood = mean(sentimentos_ifood$polarity))) 
 ``` 
