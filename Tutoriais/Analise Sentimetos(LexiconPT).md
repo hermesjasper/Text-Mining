@@ -2,7 +2,7 @@ Olá Pessoas!
   
   Luiz aqui, irei apresentar uma maneira de realizar análise de sentimentos por inner.join e utilizando a base de dados 'sentiLex_lem_PT02', contida no pacote 'lexiconPT'.
 
-  A análise de sentimentos e constituída em 2 etapas, sendo a limpeza dos dados a 1° e consequentemente a atribuição de 'sentimentos' ao texto a 2°.
+  A análise de sentimentos e constituída em 2 etapas, sendo a limpeza dos dados a 1° e consequentemente a atribuição de 'sentimentos' ao texto.
   
   Por cunho de aprendizado irei realizar um exemplo explicando cada passo desde à seleção do banco de dados à etapa final que é o sentimento extraido do texto. O exemplo terá como base a mineração dos últimos 10000 tweets do 'ifood' e avaliá-los em negativo ou positivos. Não será apresentado nenhum resultado, de tal modo que para vocês obterem-los possam modificar tanto a base dados dos sentimentos ou os próprios dados minerados.
   
