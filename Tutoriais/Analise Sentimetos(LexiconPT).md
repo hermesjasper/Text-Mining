@@ -85,13 +85,13 @@ Base de dados que atribui sentimentos às palavras.
 ```
 dados_sentiment = sentiLex_lem_PT02
 ```
-Usar funçao do tidytext para criar uma linha para cada palavra de um comentario
+Usar funçao do tidytext para criar uma linha para cada palavra de um tweet.
 
 ```
 palavras_ifood <- ifood %>% unnest_tokens(ifood, text)
 ```
 
-Alterar os nomes para, no próximo passo juntar por eles.
+Alterar os nomes para, no próximo passo, juntar por eles.
 
 ```
 names(palavras_ifood)[names(palavras_ifood)== "ifood"]<- "term"
