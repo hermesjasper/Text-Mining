@@ -4,5 +4,6 @@ Se precisarem, entrem nos arquivos porque eles estão mais bem-explicados que os
 
 Apenas para você se situar:
 
-- Pré-processamento: Esse .md é um arquivo onde mostramos como fazer a tokenização, conversão pra corpus e limpeza de dados.
-- 
+- Minerando: Esse arquivo é pra mostrar como fazer o trabalho de mineração de dados de texto. Apresentamos alguns pacotes e recursos que podem ser úteis nisso.
+- Pré-processamento: Esse é um arquivo onde mostramos como fazer a tokenização, conversão pra corpus e limpeza de dados.
+- Nuvens de palavras: Esse é um arquivo RAR. Baixe ele e descompacte, e abra o HTML que tem dentro dele, pois ele tem um tutorial de como trabalhar com Wordclouds.
