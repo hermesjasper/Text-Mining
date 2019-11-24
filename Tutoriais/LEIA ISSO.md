@@ -6,5 +6,5 @@ Apenas para você se situar:
 
 - Minerando: Esse arquivo é pra mostrar como fazer o trabalho de mineração de dados de texto. Apresentamos alguns pacotes e recursos que podem ser úteis nisso.
 - Pré-processamento: Esse é um arquivo onde mostramos como fazer a tokenização, conversão pra corpus e limpeza de dados.
-- Nuvens de palavras: Esse é um arquivo RAR. Baixe ele clicando em "View raw", descompacte, e abra o HTML que tem dentro dele, pois ele tem um tutorial de como trabalhar com Wordclouds.
+- Wordclouds2.rar: Esse é um arquivo RAR. Baixe ele clicando em "View raw", descompacte, e abra o HTML que tem dentro dele, pois ele tem um tutorial de como trabalhar com Wordclouds.
 - Análise de Sentimentos (LexiconPT): Aqui, nós mostramos como usar o pacote LexiconPT pra fazer análises de sentimentos.
