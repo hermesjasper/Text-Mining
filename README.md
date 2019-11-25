@@ -21,17 +21,12 @@ Geralmente, são necessários bancos de palavras organizadas para isso, tais com
  https://medium.com/@actsusanli/text-mining-is-fun-with-r-35e537b12002
 </p>
 
-Pacotes:
--
-<p> 
- Quais pacotes usamos? <br />
- Extensões dos pacotes ( como usá-los e aplicá-los)? <br />
- Tipos de pacotes ( eles funcionam apenas em casos específicos, Twitter,...?). 
-</p>
+# Sobre os tutoriais
+Nós tinhamos pensado em colocar os slides como tutorial, mas seria contraproducente, pois criamos os slides como recurso expositivo, e não recurso didático. Por conta disso, preferimos criar tutoriais por meio do R Markdown e do próprio Markdown do GitHub, e eles estão dentro da pasta "tutoriais".
 
-Estruturação dos Slides:
--
-<p>
- Introdução (Exemplo de Ordem: Pacotes, Text-Mining, Sentimentos). <br />
- Colocar os tópicos acima de forma dinâmica e não-entediante.
-</p>
+Alguns dos arquivos estão salvos por meio de um .RAR. Para eles, você vai precisar baixar o arquivo e descomprimí-lo.
+
+Dentro do .RAR, tem tanto o HTML quanto o código que usamos para gerá-lo.
+
+# Sobre os slides
+Os slides e os arquivos necessários pra rodá-los estão dentro de um arquivo .RAR também. Baixe o RAR, e salve a pasta que está dentro do .RAR. Após isso, defina essa pasta como o seu diretório pra conseguir rodar o arquivo.
