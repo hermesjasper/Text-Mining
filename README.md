@@ -18,5 +18,5 @@ Alguns dos arquivos estão salvos por meio de um .RAR. Para eles, você vai prec
 
 Dentro do .RAR, tem tanto o HTML quanto o código que usamos para gerá-lo.
 
-# Sobre os slides
-Os slides e os arquivos necessários pra rodá-los estão dentro de um arquivo .RAR também. Baixe o RAR, e salve a pasta que está dentro do .RAR. Após isso, defina essa pasta como o seu diretório pra conseguir rodar o arquivo.
+# Sobre os slides, bancos de dados e imagens
+Os slides e os arquivos (incluindo os bancos de dados em CSV) necessários pra rodá-los estão dentro de um arquivo .RAR (Análise e mineração de textos.RAR) também. Baixe o RAR, e salve a pasta que está dentro do .RAR. Após isso, defina essa pasta como o seu diretório pra conseguir rodar o arquivo.
