@@ -46,7 +46,7 @@ for (linha in 1:10) {
   prox<-data.frame(str_locate_all(db1,fixed("href=")))  #estrutura onde começa as letras
   prox1<-data.frame(str_locate_all(db1,fixed("/\"")))   #estrutura onde termina as letras
   
-  # substr(db1,prox[1,2],prox1[1,1]) usei pra verificar se tava cortando certo
+ #substr(db1,prox[1,2],prox1[1,1]) usei pra verificar se tava cortando certo
   
   a<-max(dim(prox1))    #quantos elementos terão de musicas por autor
   for (i in 1:a) {
@@ -56,7 +56,7 @@ for (linha in 1:10) {
 }
 
 #tabelao <- tabelao %>%                          ## auxilio pq alguns cantores tava com problema
-#  mutate(c=str_count(tabelao$link,"\\/"))
+#mutate(c=str_count(tabelao$link,"\\/"))
 #tabelao<-filter(tabelao,c==3)
 #tabelao<-filter(tabelao,musica!=1)
 #write.csv(tabelao,"C:\\Users\\gabriel\\Desktop\\tabelao.csv")  
