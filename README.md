@@ -11,16 +11,6 @@ Há muitos tipos de aplicação possíveis para análise de texto. Uma dessas ap
   Exemplos.
 </p>
 
-Análise de sentimentos por ferramentas computacionais
--
-<p> 
-A análise de sentimentos é essencialmente a busca da relação entre palavras ditas e sentimentos humanos, para avaliar o que o texto está dizendo e extrair informações do texto à partir das palavras que aparecem nele.<br />
- 
-Geralmente, são necessários bancos de palavras organizadas para isso, tais como dicionários léxicos e recursos de software adequados. Isso torna a análise na língua portuguesa mais difícil de se praticar do que na língua inglesa, pois esses recursos em português costumam ser escassos.<br />
-
- https://medium.com/@actsusanli/text-mining-is-fun-with-r-35e537b12002
-</p>
-
 # Sobre os tutoriais
 Nós tinhamos pensado em colocar os slides como tutorial, mas seria contraproducente, pois criamos os slides como recurso expositivo, e não recurso didático. Por conta disso, preferimos criar tutoriais por meio do R Markdown e do próprio Markdown do GitHub, e eles estão dentro da pasta "tutoriais".
 
